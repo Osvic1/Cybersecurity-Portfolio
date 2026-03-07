@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section style="padding-top:4rem;">
+  <div class="terminal-label" style="margin-bottom:1.5rem;">cat education.json</div>
+  <h1 class="section-title" style="margin-bottom:3rem;">Education & <span class="accent">Credentials</span></h1>
+
+  {% for item in items %}
+  <div class="card" style="padding:2rem; margin-bottom:2rem;" data-aos="fade-up">
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:1.5rem;">
+      <div>
+        <h2 style="color:#fff; font-size:1.3rem; margin-bottom:0.25rem;">{{ item.school }}</h2>
+        <div style="color:var(--green); font-family:var(--font-mono); font-size:0.85rem;">{{ item.program }}</div>
+      </div>
+      <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-dim); text-align:right;">
+        {{ item.period }}
+      </div>
+    </div>
+    <ul style="padding-left:1.25rem;">
+      {% for note in item.notes %}
+      <li style="color:var(--text-dim); font-size:0.88rem; line-height:1.8; margin-bottom:0.25rem;">{{ note }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+
+  <!-- Certs section -->
+  <div class="terminal-label" style="margin:3rem 0 1.5rem;">ls ./certifications/</div>
+  <h2 class="section-title" style="margin-bottom:2rem;">Professional <span class="accent">Certifications</span></h2>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem;">
+    <div class="card" style="padding:1.5rem; display:flex; align-items:center; gap:1rem;" data-aos="fade-up">
+      <i class="fab fa-google" style="font-size:2rem; color:var(--cyan); flex-shrink:0;"></i>
+      <div>
+        <div style="font-weight:700; color:#fff; font-size:0.9rem;">Google Cybersecurity Professional</div>
+        <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">Google · Coursera · 2024</div>
+      </div>
+    </div>
+    <div class="card" style="padding:1.5rem; display:flex; align-items:center; gap:1rem;" data-aos="fade-up" data-aos-delay="80">
+      <i class="fas fa-shield-halved" style="font-size:2rem; color:var(--green); flex-shrink:0;"></i>
+      <div>
+        <div style="font-weight:700; color:#fff; font-size:0.9rem;">Cybersecurity & Digital Forensics</div>
+        <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">Cyber Secured India · 2023–2024</div>
+      </div>
+    </div>
+    <div class="card" style="padding:1.5rem; display:flex; align-items:center; gap:1rem;" data-aos="fade-up" data-aos-delay="160">
+      <i class="fas fa-flag" style="font-size:2rem; color:var(--yellow); flex-shrink:0;"></i>
+      <div>
+        <div style="font-weight:700; color:#fff; font-size:0.9rem;">3MTT Nigeria Cybersecurity</div>
+        <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">3MTT Nigeria · Darey.io · 2025</div>
+      </div>
+    </div>
+    <div class="card" style="padding:1.5rem; display:flex; align-items:center; gap:1rem;" data-aos="fade-up" data-aos-delay="240">
+      <i class="fas fa-laptop-code" style="font-size:2rem; color:var(--purple); flex-shrink:0;"></i>
+      <div>
+        <div style="font-weight:700; color:#fff; font-size:0.9rem;">TECH4DEV Cybersecurity Course</div>
+        <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">TECH4DEV · 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

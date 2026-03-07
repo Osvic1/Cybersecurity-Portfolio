@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section style="padding-top:4rem;">
+  <div class="terminal-label" style="margin-bottom:1.5rem;">ls -la ./projects/ | grep cybersec</div>
+  <h1 class="section-title" style="margin-bottom:3rem;">Security <span class="accent">Projects</span></h1>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:1.5rem;">
+    {% for project in projects %}
+    <div class="card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+
+      <!-- Image slider -->
+      <div style="position:relative; overflow:hidden; aspect-ratio:16/9; background:#000;">
+        {% for img in project.images %}
+        <img src="{{ img }}" alt="{{ project.title }} screenshot {{ loop.index }}"
+             style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;
+                    opacity:{{ '1' if loop.first else '0' }}; transition:opacity 0.6s;"
+             class="proj-slide" data-group="proj-{{ loop.index0 }}-grp-{{ loop.revindex }}"/>
+        {% endfor %}
+        <!-- Slide indicator dots -->
+        <div style="position:absolute; bottom:8px; right:10px; display:flex; gap:5px;">
+          {% for img in project.images %}
+          <span style="width:6px; height:6px; border-radius:50%;
+                       background:{{ 'var(--green)' if loop.first else 'rgba(255,255,255,0.3)' }};
+                       transition:background 0.3s;" class="proj-dot"></span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div style="padding:1.5rem; flex:1; display:flex; flex-direction:column;">
+        <h3 style="color:#fff; font-size:1rem; margin-bottom:0.5rem; line-height:1.4;">{{ project.title }}</h3>
+        <p style="color:var(--text-dim); font-size:0.85rem; line-height:1.7; flex:1; margin-bottom:1rem;">{{ project.description }}</p>
+
+        <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:1rem;">
+          {% for tag in project.tags %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+
+        <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:0.75rem; padding:8px 16px; align-self:flex-start;">
+          <i class="fas fa-external-link-alt"></i> View Report
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  // Auto-rotate project images
+  document.querySelectorAll('.card').forEach(card => {
+    const slides = card.querySelectorAll('.proj-slide');
+    const dots   = card.querySelectorAll('.proj-dot');
+    if (slides.length < 2) return;
+    let idx = 0;
+    setInterval(() => {
+      slides[idx].style.opacity = '0';
+      dots[idx].style.background = 'rgba(255,255,255,0.3)';
+      idx = (idx + 1) % slides.length;
+      slides[idx].style.opacity = '1';
+      dots[idx].style.background = 'var(--green)';
+    }, 3000);
+  });
+</script>
+
+{% endblock %}

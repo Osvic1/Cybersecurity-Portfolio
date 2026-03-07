@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section style="text-align:center; padding:6rem 0;">
+  <div class="card" style="max-width:500px; margin:0 auto; padding:3rem;">
+    <div style="font-family:var(--font-mono); font-size:4rem; color:var(--red); margin-bottom:1rem;">{{ title.split('–')[0] | trim }}</div>
+    <h1 style="color:#fff; margin-bottom:0.75rem;">{{ title }}</h1>
+    <p style="color:var(--text-dim); margin-bottom:2rem; font-family:var(--font-mono); font-size:0.85rem;">
+      Access denied or page not found. Return to a known safe state.
+    </p>
+    <a href="{{ url_for('home') }}" class="btn-primary">
+      <i class="fas fa-terminal"></i> Return Home
+    </a>
+  </div>
+</section>
+{% endblock %}

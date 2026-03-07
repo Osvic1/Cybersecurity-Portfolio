@@ -1,0 +1,405 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ── HERO ───────────────────────────────────────────────────────────────── -->
+<section style="padding-top:4rem; padding-bottom:2rem;">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;" class="hero-grid">
+
+    <!-- Left: Identity -->
+    <div data-aos="fade-right">
+      <div class="terminal-label" style="margin-bottom:1.5rem;">
+        <span style="color:var(--green);">whoami</span>
+      </div>
+
+      <h1 style="font-size:clamp(2.2rem,5vw,4rem); font-weight:800; line-height:1.1; color:#fff; margin-bottom:1rem;">
+        Timothy<br>
+        <span style="color:var(--green);">Victor Osas</span>
+      </h1>
+
+      <div style="font-family:var(--font-mono); font-size:0.9rem; color:var(--cyan); margin-bottom:1.5rem; min-height:1.4rem;">
+        <span id="role-text"></span><span class="cursor"></span>
+      </div>
+
+      <p style="color:var(--text-dim); line-height:1.8; max-width:520px; margin-bottom:2rem;">
+        First Class Honours Marine Engineering graduate pivoting to defend digital frontiers.
+        Specialising in <strong style="color:var(--text);">threat detection</strong>, 
+        <strong style="color:var(--text);">incident response</strong>, and 
+        <strong style="color:var(--text);">digital forensics</strong>. 
+        Every system deserves a guardian.
+      </p>
+
+      <div style="display:flex; flex-wrap:wrap; gap:1rem;">
+        <a href="{{ url_for('projects') }}" class="btn-primary">
+          <i class="fas fa-terminal"></i> View Projects
+        </a>
+        <a href="/resume" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          <i class="fas fa-file-shield"></i> Download CV
+        </a>
+        <a href="{{ url_for('contact') }}" class="btn-secondary">
+          <i class="fas fa-satellite-dish"></i> Contact
+        </a>
+      </div>
+
+      <!-- Social row -->
+      <div style="display:flex; gap:1.5rem; margin-top:2rem;">
+        <a href="{{ socials.github }}" target="_blank" rel="noopener noreferrer"
+           style="color:var(--text-dim); font-size:1.3rem; transition:color 0.2s;"
+           onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-dim)'"
+           aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="{{ socials.linkedin }}" target="_blank" rel="noopener noreferrer"
+           style="color:var(--text-dim); font-size:1.3rem; transition:color 0.2s;"
+           onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color='var(--text-dim)'"
+           aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="{{ socials.email }}"
+           style="color:var(--text-dim); font-size:1.3rem; transition:color 0.2s;"
+           onmouseover="this.style.color='var(--yellow)'" onmouseout="this.style.color='var(--text-dim)'"
+           aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: Terminal window -->
+    <div data-aos="fade-left">
+      <div class="card" style="border-color:rgba(0,255,136,0.2);">
+        <!-- Terminal title bar -->
+        <div style="background:rgba(0,0,0,0.4); padding:10px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; border-radius:8px 8px 0 0;">
+          <span style="width:12px;height:12px;border-radius:50%;background:#ff5f57;"></span>
+          <span style="width:12px;height:12px;border-radius:50%;background:#ffbd2e;"></span>
+          <span style="width:12px;height:12px;border-radius:50%;background:#28c840;"></span>
+          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim); margin-left:8px;">security-profile.sh</span>
+        </div>
+        <!-- Terminal body -->
+        <div style="padding:1.5rem; font-family:var(--font-mono); font-size:0.8rem; line-height:2;">
+          <div><span style="color:var(--text-dim);">$</span> <span style="color:var(--cyan);">cat</span> <span style="color:var(--text);">profile.json</span></div>
+          <div style="margin-top:0.5rem; color:var(--text-dim);">{</div>
+          <div style="padding-left:1.5rem;">
+            <div><span style="color:var(--yellow);">"name"</span>: <span style="color:var(--green);">"Timothy Victor Osas"</span>,</div>
+            <div><span style="color:var(--yellow);">"role"</span>: <span style="color:var(--green);">"Cybersecurity Specialist"</span>,</div>
+            <div><span style="color:var(--yellow);">"certs"</span>: [</div>
+            <div style="padding-left:1.5rem; color:var(--green);">
+              "Google Cybersecurity Professional",<br>
+              "3MTT Nigeria Cybersecurity",<br>
+              "Cyber Secured India – Forensics",<br>
+              "TECH4DEV Cybersecurity"
+            </div>
+            <div>],</div>
+            <div><span style="color:var(--yellow);">"tools"</span>: <span style="color:var(--purple);">["Wireshark","Burp Suite","OpenVAS","Metasploit","Nmap"]</span>,</div>
+            <div><span style="color:var(--yellow);">"status"</span>: <span style="color:var(--green);">"open_to_opportunities"</span></div>
+          </div>
+          <div style="color:var(--text-dim);">}</div>
+          <div style="margin-top:0.5rem;"><span style="color:var(--text-dim);">$</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ──────────────────────────────────────────────────────────────── -->
+<section id="stats" style="padding:2rem 0 4rem;" data-aos="fade-up">
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem;">
+    <div class="card" style="padding:1.5rem; text-align:center;">
+      <div style="font-size:2.5rem; font-weight:800; color:var(--green); font-family:var(--font-mono);" class="stat-num" data-target="4">0</div>
+      <div style="font-size:0.8rem; color:var(--text-dim); margin-top:0.3rem; font-family:var(--font-mono);">Certifications</div>
+    </div>
+    <div class="card" style="padding:1.5rem; text-align:center;">
+      <div style="font-size:2.5rem; font-weight:800; color:var(--cyan); font-family:var(--font-mono);" class="stat-num" data-target="5">0</div>
+      <div style="font-size:0.8rem; color:var(--text-dim); margin-top:0.3rem; font-family:var(--font-mono);">Security Projects</div>
+    </div>
+    <div class="card" style="padding:1.5rem; text-align:center;">
+      <div style="font-size:2.5rem; font-weight:800; color:var(--yellow); font-family:var(--font-mono);" class="stat-num" data-target="3">0</div>
+      <div style="font-size:0.8rem; color:var(--text-dim); margin-top:0.3rem; font-family:var(--font-mono);">Years in Tech</div>
+    </div>
+    <div class="card" style="padding:1.5rem; text-align:center;">
+      <div style="font-size:2.5rem; font-weight:800; color:var(--purple); font-family:var(--font-mono);" class="stat-num" data-target="6">0</div>
+      <div style="font-size:0.8rem; color:var(--text-dim); margin-top:0.3rem; font-family:var(--font-mono);">Experience Roles</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ─────────────────────────────────────────────────────────────── -->
+<section data-aos="fade-up">
+  <div class="terminal-label" style="margin-bottom:1.5rem;">skills --list</div>
+  <h2 class="section-title" style="margin-bottom:2.5rem;">Core <span class="accent">Arsenal</span></h2>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem;">
+
+    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="0">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+        <i class="fas fa-bug" style="color:var(--red); font-size:1.2rem;"></i>
+        <span style="font-weight:700; color:#fff;">Penetration Testing</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="tag">Nmap</span><span class="tag">Metasploit</span><span class="tag">Burp Suite</span><span class="tag">SQLmap</span><span class="tag">Nikto</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="100">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+        <i class="fas fa-magnifying-glass" style="color:var(--yellow); font-size:1.2rem;"></i>
+        <span style="font-weight:700; color:#fff;">Digital Forensics</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="tag">Autopsy</span><span class="tag">FTK Imager</span><span class="tag">Wireshark</span><span class="tag">Volatility</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="200">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+        <i class="fas fa-network-wired" style="color:var(--cyan); font-size:1.2rem;"></i>
+        <span style="font-weight:700; color:#fff;">Network Security</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="tag">Firewall Config</span><span class="tag">IDS/IPS</span><span class="tag">VPN</span><span class="tag">VLAN</span><span class="tag">OpenVAS</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="300">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+        <i class="fab fa-python" style="color:var(--green); font-size:1.2rem;"></i>
+        <span style="font-weight:700; color:#fff;">Security Scripting</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="tag">Python</span><span class="tag">Bash</span><span class="tag">Flask</span><span class="tag">SQL</span><span class="tag">Linux</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="400">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+        <i class="fas fa-chart-area" style="color:var(--purple); font-size:1.2rem;"></i>
+        <span style="font-weight:700; color:#fff;">SIEM & Monitoring</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="tag">Splunk</span><span class="tag">Chronicle</span><span class="tag">IDS</span><span class="tag">Log Analysis</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="500">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
+        <i class="fas fa-fire-flame-curved" style="color:var(--red); font-size:1.2rem;"></i>
+        <span style="font-weight:700; color:#fff;">Incident Response</span>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="tag">Threat Modelling</span><span class="tag">Containment</span><span class="tag">Root Cause</span><span class="tag">Reporting</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FEATURED PROJECT ───────────────────────────────────────────────────── -->
+<section data-aos="fade-up">
+  <div class="terminal-label" style="margin-bottom:1.5rem;">ls ./featured-projects/</div>
+  <h2 class="section-title" style="margin-bottom:2.5rem;">Featured <span class="accent">Project</span></h2>
+
+  <div class="card" style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; padding:2rem; align-items:center; border-color:rgba(0,255,136,0.3);">
+    <div>
+      <img src="/static/images/wsmd3.png" alt="Python Website Monitoring Tool"
+           style="border-radius:6px; border:1px solid var(--border); width:100%;"/>
+    </div>
+    <div>
+      <div class="terminal-label">Python Automation</div>
+      <h3 style="font-size:1.5rem; color:#fff; margin-bottom:0.75rem;">Website Monitoring &amp; Forensics Tool</h3>
+      <p style="color:var(--text-dim); line-height:1.7; margin-bottom:1.5rem;">
+        A custom Python application that monitors website uptime, logs anomalies with timestamps,
+        and generates forensic-grade incident reports. Detects suspicious HTTP patterns and triggers alerts.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:1.5rem;">
+        <span class="tag">Python</span>
+        <span class="tag">HTTP Monitoring</span>
+        <span class="tag">Alerting</span>
+        <span class="tag">Forensic Logs</span>
+      </div>
+      <a href="{{ url_for('projects') }}" class="btn-primary">
+        <i class="fas fa-arrow-right"></i> View All Projects
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CASE STUDIES ───────────────────────────────────────────────────────── -->
+<section data-aos="fade-up">
+  <div class="terminal-label" style="margin-bottom:1.5rem;">./case-studies --summary</div>
+  <h2 class="section-title" style="margin-bottom:2.5rem;">Case <span class="accent">Studies</span></h2>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+    <div class="card" style="padding:1.75rem;" data-aos="fade-up" data-aos-delay="0">
+      <i class="fas fa-fish-fins" style="color:var(--red); font-size:1.4rem; margin-bottom:1rem;"></i>
+      <h3 style="color:#fff; margin-bottom:0.5rem;">Securing the Access Grid</h3>
+      <p style="color:var(--text-dim); font-size:0.9rem; line-height:1.7;">
+        Led simulated incident response for an advanced phishing campaign. Implemented containment,
+        secure email gateways, and user-awareness training at Cybershield Corp.
+      </p>
+      <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="tag">Phishing</span><span class="tag">IR</span><span class="tag">Email Security</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:1.75rem;" data-aos="fade-up" data-aos-delay="100">
+      <i class="fas fa-network-wired" style="color:var(--cyan); font-size:1.4rem; margin-bottom:1rem;"></i>
+      <h3 style="color:#fff; margin-bottom:0.5rem;">Network Design — Kafitech</h3>
+      <p style="color:var(--text-dim); font-size:0.9rem; line-height:1.7;">
+        Designed secure network infrastructure with VLAN segmentation, ACLs, IDS/IPS rules,
+        and firewall policies for a growing technology company.
+      </p>
+      <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:6px;">
+        <span class="tag">VLAN</span><span class="tag">ACL</span><span class="tag">Firewall</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────────────────────────── -->
+<section style="text-align:center; padding:4rem 0;" data-aos="zoom-in">
+  <div class="card" style="padding:3rem; max-width:600px; margin:0 auto; border-color:rgba(0,255,136,0.25);">
+    <div style="font-size:2.5rem; margin-bottom:1rem;">🛡️</div>
+    <h2 style="font-size:1.8rem; color:#fff; margin-bottom:0.75rem;">Let's Secure Your Digital Space</h2>
+    <p style="color:var(--text-dim); margin-bottom:2rem; line-height:1.7;">
+      Looking for a cybersecurity specialist with hands-on experience in threat detection, forensics,
+      and secure system design? Let's talk.
+    </p>
+    <a href="{{ url_for('contact') }}" class="btn-primary">
+      <i class="fas fa-terminal"></i> Initiate Contact
+    </a>
+  </div>
+</section>
+
+<style>
+  @media (max-width:768px) {
+    .hero-grid { grid-template-columns:1fr !important; }
+    .feat-grid { grid-template-columns:1fr !important; }
+    div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
+  }
+</style>
+
+<script>
+// ── Typing effect ──────────────────────────────────────────────────────────
+const roles = [
+  "Cybersecurity Specialist",
+  "Digital Forensics Analyst",
+  "Penetration Tester",
+  "Python Security Developer",
+  "Incident Response Engineer"
+];
+
+let ri = 0, ci = 0, deleting = false;
+const el = document.getElementById('role-text');
+
+function type(){
+  const word = roles[ri];
+  if (!deleting){
+    el.textContent = word.slice(0, ++ci);
+    if (ci === word.length){ deleting = true; return setTimeout(type, 1800); }
+  } else {
+    el.textContent = word.slice(0, --ci);
+    if (ci === 0){ deleting = false; ri = (ri+1) % roles.length; }
+  }
+  setTimeout(type, deleting ? 50 : 80);
+}
+type();
+
+// ── Counter animation ─────────────────────────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = +el.dataset.target;
+    let n = 0;
+    const step = Math.ceil(target / 40);
+    const timer = setInterval(() => {
+      n = Math.min(n + step, target);
+      el.textContent = n;
+      if (n >= target) clearInterval(timer);
+    }, 40);
+    observer.unobserve(el);
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-num').forEach(el => observer.observe(el));
+</script>
+
+{# ── AI Mini Chat Widget ──────────────────────────────────────────────────── #}
+<section style="padding:4rem 0;">
+  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;">
+    <div class="terminal-label" style="margin-bottom:1rem;">./ask-timothy --ai</div>
+    <div style="background:#0d1117;border:1px solid #00ff8833;border-radius:12px;overflow:hidden;box-shadow:0 0 30px #00ff8811;">
+      <!-- Chat header -->
+      <div style="background:#161b22;padding:0.75rem 1.25rem;border-bottom:1px solid #00ff8822;display:flex;align-items:center;gap:0.75rem;">
+        <div style="width:10px;height:10px;background:#00ff88;border-radius:50%;box-shadow:0 0 8px #00ff88;animation:pulse 2s infinite;"></div>
+        <span style="color:#00ff88;font-size:0.8rem;font-family:'Share Tech Mono',monospace;">AI Assistant — Online</span>
+        <span style="color:#555;font-size:0.75rem;margin-left:auto;">Ask me anything about Timothy</span>
+      </div>
+      <!-- Messages area -->
+      <div id="chat-messages" style="height:280px;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:0.85rem;">
+        <div class="chat-msg bot" style="display:flex;gap:0.6rem;align-items:flex-start;">
+          <span style="color:#00ff88;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[AI]$</span>
+          <span style="color:#c9d1d9;font-size:0.875rem;line-height:1.6;">Hey! I'm Timothy's portfolio assistant. Ask me about his skills, projects, certifications, or experience.</span>
+        </div>
+      </div>
+      <!-- Input area -->
+      <div style="border-top:1px solid #00ff8822;padding:0.85rem 1.25rem;display:flex;gap:0.75rem;align-items:center;background:#0d1117;">
+        <span style="color:#00ff88;font-size:0.8rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;">visitor@portfolio:~$</span>
+        <input id="chat-input" type="text" placeholder="Type your question..." maxlength="300"
+          style="flex:1;background:transparent;border:none;outline:none;color:#e6edf3;font-family:'Share Tech Mono',monospace;font-size:0.85rem;caret-color:#00ff88;"
+          onkeydown="if(event.key==='Enter')sendChat()">
+        <button onclick="sendChat()" style="background:#00ff8820;border:1px solid #00ff8844;color:#00ff88;padding:0.35rem 0.85rem;border-radius:6px;cursor:pointer;font-size:0.8rem;font-family:'Share Tech Mono',monospace;transition:all 0.2s;" onmouseover="this.style.background='#00ff8840'" onmouseout="this.style.background='#00ff8820'">Send</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const box   = document.getElementById('chat-messages');
+  const msg   = input.value.trim();
+  if (!msg) return;
+
+  // Add user message
+  box.innerHTML += `
+    <div style="display:flex;gap:0.6rem;align-items:flex-start;justify-content:flex-end;">
+      <span style="color:#c9d1d9;font-size:0.875rem;line-height:1.6;background:#21262d;padding:0.4rem 0.85rem;border-radius:8px;max-width:80%;">${msg.replace(/</g,'&lt;')}</span>
+      <span style="color:#bd93f9;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[you]</span>
+    </div>`;
+  input.value = '';
+  box.scrollTop = box.scrollHeight;
+
+  // Typing indicator
+  const typingId = 'typing-' + Date.now();
+  box.innerHTML += `
+    <div id="${typingId}" style="display:flex;gap:0.6rem;align-items:flex-start;">
+      <span style="color:#00ff88;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[AI]$</span>
+      <span style="color:#555;font-size:0.875rem;">thinking...</span>
+    </div>`;
+  box.scrollTop = box.scrollHeight;
+
+  try {
+    const res  = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: msg})
+    });
+    const data = await res.json();
+    document.getElementById(typingId).remove();
+    box.innerHTML += `
+      <div style="display:flex;gap:0.6rem;align-items:flex-start;">
+        <span style="color:#00ff88;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[AI]$</span>
+        <span style="color:#c9d1d9;font-size:0.875rem;line-height:1.6;">${(data.reply||'').replace(/</g,'&lt;')}</span>
+      </div>`;
+  } catch(e) {
+    document.getElementById(typingId).remove();
+    box.innerHTML += `
+      <div style="display:flex;gap:0.6rem;align-items:flex-start;">
+        <span style="color:#00ff88;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[AI]$</span>
+        <span style="color:#ff5555;font-size:0.875rem;">Connection error. Try again.</span>
+      </div>`;
+  }
+  box.scrollTop = box.scrollHeight;
+}
+</script>
+
+{% endblock %}

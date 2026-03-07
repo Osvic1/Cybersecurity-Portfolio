@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section style="padding-top:4rem;">
+  <div class="terminal-label" style="margin-bottom:1.5rem;">cat about.md</div>
+
+  <div style="display:grid; grid-template-columns:2fr 1fr; gap:3rem; align-items:start;">
+
+    <!-- Left: Bio -->
+    <div data-aos="fade-right">
+      <h1 style="font-size:clamp(1.8rem,4vw,3rem); font-weight:800; color:#fff; margin-bottom:1rem;">
+        Your Ideal <span style="color:var(--green);">Cybersecurity</span> Specialist
+      </h1>
+      <blockquote style="border-left:3px solid var(--green); padding-left:1rem; color:var(--text-dim); font-style:italic; margin-bottom:2rem;">
+        "Code with purpose. Secure with passion."
+      </blockquote>
+
+      <p style="color:var(--text-dim); line-height:1.9; margin-bottom:1.25rem;">
+        I'm a cybersecurity enthusiast and Python developer with a passion for building secure,
+        performant, and resilient digital systems. My journey in tech, which started with a keen
+        interest in problem-solving, has grown into a career focused on delivering robust solutions
+        through code and defensive security practices.
+      </p>
+      <p style="color:var(--text-dim); line-height:1.9; margin-bottom:2rem;">
+        I thrive in collaborative environments, working with innovative minds to tackle complex
+        security challenges and automate processes. My approach combines clean code, user-centric
+        security, and a relentless drive for continuous improvement. Every system I touch is left
+        more resilient than I found it.
+      </p>
+
+      <!-- Skills cloud -->
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:2rem;">
+        <span class="tag">Python</span>
+        <span class="tag">Flask</span>
+        <span class="tag">Cybersecurity</span>
+        <span class="tag">Network Security</span>
+        <span class="tag">Vulnerability Analysis</span>
+        <span class="tag">Digital Forensics</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Linux</span>
+        <span class="tag">Bash</span>
+        <span class="tag">Git</span>
+        <span class="tag">SIEM</span>
+        <span class="tag">Wireshark</span>
+        <span class="tag">OpenVAS</span>
+        <span class="tag">Burp Suite</span>
+      </div>
+
+      <a href="{{ socials.resume }}" target="_blank" rel="noopener noreferrer" class="btn-primary">
+        <i class="fas fa-file-shield"></i> Download Full CV
+      </a>
+    </div>
+
+    <!-- Right: Quick facts -->
+    <div data-aos="fade-left">
+      <div class="card" style="padding:1.75rem; margin-bottom:1rem;">
+        <div class="terminal-label" style="margin-bottom:1rem;">quick_facts.json</div>
+        <div style="font-family:var(--font-mono); font-size:0.78rem; line-height:2; color:var(--text-dim);">
+          <div><span style="color:var(--yellow);">"degree"</span>: <span style="color:var(--green);">"B.Eng Marine Eng"</span></div>
+          <div><span style="color:var(--yellow);">"grade"</span>: <span style="color:var(--green);">"First Class Honours"</span></div>
+          <div><span style="color:var(--yellow);">"location"</span>: <span style="color:var(--green);">"Lagos, Nigeria"</span></div>
+          <div><span style="color:var(--yellow);">"languages"</span>: <span style="color:var(--purple);">["Python","Bash","SQL","C"]</span></div>
+          <div><span style="color:var(--yellow);">"os"</span>: <span style="color:var(--green);">"Linux/Windows"</span></div>
+          <div><span style="color:var(--yellow);">"status"</span>: <span style="color:var(--green);">"available"</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:1.75rem;">
+        <div class="terminal-label" style="margin-bottom:1rem;">connect --socials</div>
+        <div style="display:flex; flex-direction:column; gap:0.75rem; font-family:var(--font-mono); font-size:0.8rem;">
+          <a href="{{ socials.github }}" target="_blank" rel="noopener noreferrer"
+             style="display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none;"
+             onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text)'">
+            <i class="fab fa-github" style="width:18px;"></i> github.com/Osvic1
+          </a>
+          <a href="{{ socials.linkedin }}" target="_blank" rel="noopener noreferrer"
+             style="display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none;"
+             onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color='var(--text)'">
+            <i class="fab fa-linkedin" style="width:18px;"></i> Timothy Victor
+          </a>
+          <a href="{{ socials.email }}"
+             style="display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none;"
+             onmouseover="this.style.color='var(--yellow)'" onmouseout="this.style.color='var(--text)'">
+            <i class="fas fa-envelope" style="width:18px;"></i> Timothyv952@gmail.com
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    div[style*="grid-template-columns:2fr 1fr"] { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+{% endblock %}

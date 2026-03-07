@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section style="padding-top:4rem;">
+  <div class="terminal-label" style="margin-bottom:1.5rem;">cat experience.log</div>
+  <h1 class="section-title" style="margin-bottom:3rem;">Work <span class="accent">Experience</span></h1>
+
+  <div style="position:relative; padding-left:2rem;">
+    <!-- Timeline line -->
+    <div style="position:absolute; left:7px; top:0; bottom:0; width:2px; background:linear-gradient(180deg, var(--green), transparent);"></div>
+
+    {% for item in items %}
+    <div class="card" style="padding:1.75rem; margin-bottom:1.5rem; margin-left:1rem; position:relative;" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+      <!-- Dot on timeline -->
+      <div style="position:absolute; left:-1.75rem; top:1.75rem; width:12px; height:12px; border-radius:50%;
+                  background:var(--green); border:2px solid var(--bg); box-shadow:0 0 8px rgba(0,255,136,0.5);"></div>
+
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.75rem;">
+        <div>
+          <h3 style="color:#fff; font-size:1.05rem;">{{ item.role }}</h3>
+          <div style="color:var(--green); font-family:var(--font-mono); font-size:0.8rem;">{{ item.company }}</div>
+        </div>
+        <div style="text-align:right; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">
+          <div>{{ item.period }}</div>
+          <div>{{ item.location }}</div>
+        </div>
+      </div>
+
+      <ul style="margin-bottom:1rem; padding-left:1.25rem;">
+        {% for bullet in item.bullets %}
+        <li style="color:var(--text-dim); font-size:0.88rem; line-height:1.7; margin-bottom:0.3rem;">{{ bullet }}</li>
+        {% endfor %}
+      </ul>
+
+      <div style="display:flex; flex-wrap:wrap; gap:5px;">
+        {% for skill in item.skills %}
+        <span class="tag">{{ skill }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Timothy Victor Osas — Cybersecurity Specialist & Digital Forensics Analyst"/>
+  <meta name="robots" content="index, follow"/>
+  <title>{{ title }} | Timothy Victor — CyberSec</title>
+
+  <!-- Security: SRI for third-party assets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plh7eecIs9nFivnmv8EqrEibDM4tA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --bg:        #030712;
+      --surface:   #0d1117;
+      --border:    rgba(0,255,136,0.15);
+      --green:     #00ff88;
+      --green-dim: #00c96a;
+      --cyan:      #00d4ff;
+      --red:       #ff3e3e;
+      --yellow:    #ffd700;
+      --text:      #c9d1d9;
+      --text-dim:  #8b949e;
+      --purple:    #bd93f9;
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-body: 'Syne', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Matrix rain canvas ── */
+    #matrix-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.04;
+    }
+
+    /* ── Scanline overlay ── */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Layout wrapper ── */
+    #app-wrapper { position: relative; z-index: 2; }
+
+    /* ── NAV ── */
+    nav.topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3,7,18,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+
+    nav.topnav .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .brand {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--green);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    .brand span { color: var(--text); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::before {
+      content: ">";
+      margin-right: 4px;
+      color: var(--green);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--green);
+    }
+
+    .nav-links a:hover::before, .nav-links a.active::before {
+      opacity: 1;
+    }
+
+    /* hamburger */
+    #nav-toggle { display: none; background: none; border: none; cursor: pointer; }
+    #nav-toggle span { display: block; width: 22px; height: 2px; background: var(--green); margin: 5px 0; transition: 0.3s; }
+
+    /* ── Glass card ── */
+    .card {
+      background: rgba(13,17,23,0.8);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      border-color: var(--green-dim);
+      box-shadow: 0 0 24px rgba(0,255,136,0.08);
+    }
+
+    /* ── Terminal prompt ── */
+    .terminal-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .terminal-label::before { content: "$"; color: var(--text-dim); }
+
+    /* ── Heading styles ── */
+    h1, h2, h3, h4 { font-family: var(--font-body); font-weight: 700; }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: #fff;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title .accent { color: var(--green); }
+
+    /* ── Tag/badge ── */
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 3px 10px;
+      border-radius: 3px;
+      background: rgba(0,255,136,0.1);
+      border: 1px solid rgba(0,255,136,0.3);
+      color: var(--green);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Btn styles ── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-decoration: none;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-primary:hover {
+      background: rgba(0,255,136,0.1);
+      box-shadow: 0 0 16px rgba(0,255,136,0.2);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      text-decoration: none;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ── Main ── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    section { padding: 5rem 0; }
+
+    /* ── Flash messages ── */
+    .flash-container {
+      position: fixed;
+      top: 80px;
+      right: 1.5rem;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-width: 360px;
+    }
+
+    .flash-msg {
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-left: 3px solid;
+      background: rgba(13,17,23,0.97);
+      backdrop-filter: blur(8px);
+    }
+
+    .flash-msg.success { border-color: var(--green); color: var(--green); }
+    .flash-msg.danger  { border-color: var(--red);   color: var(--red); }
+
+    .flash-msg .dismiss { background: none; border: none; cursor: pointer; color: inherit; opacity: 0.6; }
+    .flash-msg .dismiss:hover { opacity: 1; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    footer .inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    footer a { color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--green); }
+
+    footer .foot-links { display: flex; gap: 1.5rem; }
+
+    /* ── Pulse dot ── */
+    .pulse-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.6); }
+      50%       { box-shadow: 0 0 0 6px rgba(0,255,136,0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; gap: 0.5rem;
+        position: absolute; top: 60px; left: 0; right: 0;
+        background: rgba(3,7,18,0.97);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 2rem;
+      }
+      .nav-links.open { display: flex; }
+      #nav-toggle { display: flex; flex-direction: column; }
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* Cursor blink */
+    .cursor {
+      display: inline-block;
+      width: 2px; height: 1em;
+      background: var(--green);
+      margin-left: 3px;
+      animation: blink 0.7s infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink {
+      0%,50% { opacity:1; }
+      50.01%,100% { opacity:0; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix-canvas"></canvas>
+
+  <div id="app-wrapper">
+    <!-- NAV -->
+    <nav class="topnav">
+      <div class="inner">
+        <a href="{{ url_for('home') }}" class="brand">[<span>Timothy</span>@sec ~]$</a>
+
+        <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">
+          <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('about') }}">About</a></li>
+          <li><a href="{{ url_for('education') }}">Education</a></li>
+          <li><a href="{{ url_for('experience') }}">Experience</a></li>
+          <li><a href="{{ url_for('projects') }}">Projects</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Flash messages -->
+    <div class="flash-container" role="alert" aria-live="polite">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-msg {{ category }}">
+              <span>{{ message }}</span>
+              <button class="dismiss" aria-label="Dismiss"><i class="fas fa-times"></i></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- Main content -->
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="inner">
+        <span><span class="pulse-dot"></span> &nbsp;Available for opportunities · WAT (UTC+1)</span>
+        <div class="foot-links">
+          <a href="mailto:Timothyv952@gmail.com">Email</a>
+          <a href="https://linkedin.com/in/timothy-victor-a61421223/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://github.com/Osvic1" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+        <span>© 2025 Timothy Victor Osas · Flask + Tailwind</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  <script>
+    // ── AOS init ──────────────────────────────────────────────────────────────
+    AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic' });
+
+    // ── Matrix canvas ─────────────────────────────────────────────────────────
+    (function(){
+      const canvas = document.getElementById('matrix-canvas');
+      const ctx = canvas.getContext('2d');
+      let cols, drops;
+
+      function resize(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        cols = Math.floor(canvas.width / 18);
+        drops = Array.from({length: cols}, () => Math.random() * -100);
+      }
+
+      const chars = "01アイウエオカキクケコABCDEF{}[];></>";
+
+      function draw(){
+        ctx.fillStyle = 'rgba(3,7,18,0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff88';
+        ctx.font = '14px Share Tech Mono';
+        drops.forEach((y, i) => {
+          const ch = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(ch, i * 18, y * 18);
+          if (y * 18 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i] += 0.5;
+        });
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      setInterval(draw, 50);
+    })();
+
+    // ── Flash dismiss ─────────────────────────────────────────────────────────
+    document.querySelectorAll('.flash-msg').forEach(msg => {
+      const t = setTimeout(() => fade(msg), 5000);
+      msg.querySelector('.dismiss').addEventListener('click', () => { clearTimeout(t); fade(msg); });
+    });
+
+    function fade(el){
+      el.style.transition = 'opacity 0.4s';
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 400);
+    }
+
+    // ── Mobile nav ────────────────────────────────────────────────────────────
+    const toggle = document.getElementById('nav-toggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+
+    // ── Active nav link ───────────────────────────────────────────────────────
+    const path = window.location.pathname;
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      if (a.getAttribute('href') === path || (path === '/' && a.getAttribute('href') === '/')) {
+        a.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>
