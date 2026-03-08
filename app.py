@@ -275,6 +275,50 @@ def projects():
             "tags": ["Vulnerability Assessment", "OpenVAS", "Network Security"],
             "link": "https://docs.google.com/document/d/1BTIynjtbc4gbitqLxSkFuyzXv82Q8dSxV537i3mCFbM/edit?usp=sharing",
         },
+        {
+            "title": "Phishing Email Analyzer",
+            "description": "A Python tool that parses and analyses suspicious emails — extracting headers, URLs, and attachments to identify phishing indicators. Generates a structured threat report.",
+            "images": [
+                "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&q=80",
+                "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=800&q=80",
+                "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=800&q=80",
+            ],
+            "tags": ["Phishing", "Python", "Email Security", "Threat Analysis"],
+            "link": None,
+        },
+        {
+            "title": "Password Strength Auditor (Python)",
+            "description": "A Python-based auditing tool that evaluates password strength using entropy scoring, dictionary attack simulation, and breach database checks. Outputs a detailed security report.",
+            "images": [
+                "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
+                "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80",
+                "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
+            ],
+            "tags": ["Python", "Password Security", "Auditing", "Automation"],
+            "link": None,
+        },
+        {
+            "title": "SOC Alert Triage Simulation",
+            "description": "Simulated a Security Operations Centre triage workflow — classifying alerts by severity, correlating events across logs, and producing incident tickets following NIST guidelines.",
+            "images": [
+                "https://images.unsplash.com/photo-1551808525-51a94da548ce?w=800&q=80",
+                "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80",
+                "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+            ],
+            "tags": ["SOC", "Incident Response", "SIEM", "NIST"],
+            "link": None,
+        },
+        {
+            "title": "Linux Hardening Checklist",
+            "description": "Developed and applied a comprehensive Linux hardening checklist — disabling unnecessary services, configuring SSH key-only auth, setting up UFW firewall rules, and auditing with Lynis.",
+            "images": [
+                "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800&q=80",
+                "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&q=80",
+                "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80",
+            ],
+            "tags": ["Linux", "Hardening", "SSH", "UFW", "Lynis"],
+            "link": None,
+        },
     ]
     return render_template("projects.html", title="Projects", projects=PROJECTS, socials=SOCIALS)
 

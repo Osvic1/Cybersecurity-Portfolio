@@ -37,8 +37,15 @@
           {% endfor %}
         </div>
 
+        {% if project.link %}
         <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:0.75rem; padding:8px 16px; align-self:flex-start;">
           <i class="fas fa-external-link-alt"></i> View Report
+        </a>
+        {% else %}
+        <span style="font-size:0.75rem; padding:8px 16px; background:#1a1f2e; border:1px solid #30363d; border-radius:8px; color:#555; font-family:var(--font-mono); align-self:flex-start;">
+          <i class="fas fa-clock"></i> Coming Soon
+        </span>
+        {% endif %}
         </a>
       </div>
     </div>

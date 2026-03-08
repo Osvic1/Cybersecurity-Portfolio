@@ -44,14 +44,16 @@
         <span class="tag">Wireshark</span>
         <span class="tag">OpenVAS</span>
         <span class="tag">Burp Suite</span>
+        <span class="tag">Metasploit</span>
+        <span class="tag">Nmap</span>
       </div>
 
-      <a href="{{ socials.resume }}" target="_blank" rel="noopener noreferrer" class="btn-primary">
+      <a href="/resume" target="_blank" rel="noopener noreferrer" class="btn-primary">
         <i class="fas fa-file-shield"></i> Download Full CV
       </a>
     </div>
 
-    <!-- Right: Quick facts -->
+    <!-- Right: Quick facts + socials -->
     <div data-aos="fade-left">
       <div class="card" style="padding:1.75rem; margin-bottom:1rem;">
         <div class="terminal-label" style="margin-bottom:1rem;">quick_facts.json</div>
@@ -61,7 +63,7 @@
           <div><span style="color:var(--yellow);">"location"</span>: <span style="color:var(--green);">"Lagos, Nigeria"</span></div>
           <div><span style="color:var(--yellow);">"languages"</span>: <span style="color:var(--purple);">["Python","Bash","SQL","C"]</span></div>
           <div><span style="color:var(--yellow);">"os"</span>: <span style="color:var(--green);">"Linux/Windows"</span></div>
-          <div><span style="color:var(--yellow);">"status"</span>: <span style="color:var(--green);">"available"</span></div>
+          <div><span style="color:var(--yellow);">"status"</span>: <span style="color:#00ff88; animation:pulse 2s infinite;">"open_to_opportunities"</span></div>
         </div>
       </div>
 
@@ -90,10 +92,176 @@
   </div>
 </section>
 
+<!-- ── Interactive CLI Widget ──────────────────────────────────────────────── -->
+<section style="padding:4rem 0 2rem;">
+  <div class="terminal-label" style="margin-bottom:1.5rem;">./security-profile.sh</div>
+
+  <div style="background:#0d1117; border:1px solid #00ff8833; border-radius:12px; overflow:hidden; box-shadow:0 0 40px #00ff8811; max-width:780px;">
+
+    <!-- Window chrome -->
+    <div style="background:#161b22; padding:0.75rem 1.25rem; border-bottom:1px solid #00ff8822; display:flex; align-items:center; gap:0.6rem;">
+      <div style="width:12px;height:12px;border-radius:50%;background:#ff5f57;"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#febc2e;"></div>
+      <div style="width:12px;height:12px;border-radius:50%;background:#28c840;"></div>
+      <span style="color:#555; font-size:0.78rem; font-family:var(--font-mono); margin-left:0.75rem;">security-profile.sh — bash</span>
+    </div>
+
+    <!-- Output area -->
+    <div id="cli-output" style="padding:1.5rem; font-family:var(--font-mono); font-size:0.82rem; line-height:1.9; min-height:260px; max-height:420px; overflow-y:auto;">
+      <div style="color:#555;">$ ./security-profile.sh</div>
+      <div style="color:var(--green); margin:0.5rem 0;">Initialising security profile... <span style="color:#fff;">OK</span></div>
+      <div style="color:var(--text-dim); margin-bottom:1rem;">Type a command below. Try: <span style="color:var(--cyan);">help</span></div>
+    </div>
+
+    <!-- Input area -->
+    <div style="border-top:1px solid #00ff8822; padding:0.85rem 1.25rem; display:flex; align-items:center; gap:0.75rem; background:#0a0f14;">
+      <span style="color:var(--green); font-family:var(--font-mono); font-size:0.82rem; white-space:nowrap;">timothy@portfolio:~$</span>
+      <input id="cli-input" type="text" placeholder="type a command..." autocomplete="off" spellcheck="false"
+        style="flex:1; background:transparent; border:none; outline:none; color:#e6edf3; font-family:var(--font-mono); font-size:0.82rem; caret-color:var(--green);"
+        onkeydown="if(event.key==='Enter') runCmd()">
+      <button onclick="runCmd()" style="background:#00ff8820; border:1px solid #00ff8844; color:var(--green); padding:0.3rem 0.75rem; border-radius:6px; cursor:pointer; font-family:var(--font-mono); font-size:0.78rem;" onmouseover="this.style.background='#00ff8840'" onmouseout="this.style.background='#00ff8820'">Run</button>
+    </div>
+  </div>
+
+  <!-- Quick command buttons -->
+  <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:1rem; max-width:780px;">
+    <span style="color:#555; font-size:0.78rem; font-family:var(--font-mono); padding-top:4px;">quick cmds:</span>
+    {% for cmd in ['help','whoami','skills','certs','projects','tools','contact','status','clear'] %}
+    <button onclick="quickCmd('{{cmd}}')"
+      style="background:#161b22; border:1px solid #30363d; color:var(--cyan); padding:0.25rem 0.7rem; border-radius:6px; cursor:pointer; font-family:var(--font-mono); font-size:0.75rem; transition:all 0.2s;"
+      onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='#30363d'">{{cmd}}</button>
+    {% endfor %}
+  </div>
+</section>
+
 <style>
   @media (max-width: 768px) {
     div[style*="grid-template-columns:2fr 1fr"] { grid-template-columns: 1fr !important; }
   }
+  #cli-output::-webkit-scrollbar { width: 4px; }
+  #cli-output::-webkit-scrollbar-track { background: transparent; }
+  #cli-output::-webkit-scrollbar-thumb { background: #00ff8833; border-radius: 4px; }
 </style>
+
+<script>
+const COMMANDS = {
+  help: () => `
+<div style="color:var(--green); margin-bottom:0.5rem;">Available commands:</div>
+<div style="color:var(--cyan);">  whoami    </div><span style="color:var(--text-dim);">— Who is Timothy?</span>
+<div style="color:var(--cyan);">  skills    </div><span style="color:var(--text-dim);">— Technical skills</span>
+<div style="color:var(--cyan);">  certs     </div><span style="color:var(--text-dim);">— Certifications</span>
+<div style="color:var(--cyan);">  projects  </div><span style="color:var(--text-dim);">— Project list</span>
+<div style="color:var(--cyan);">  tools     </div><span style="color:var(--text-dim);">— Security tools</span>
+<div style="color:var(--cyan);">  contact   </div><span style="color:var(--text-dim);">— Contact info</span>
+<div style="color:var(--cyan);">  status    </div><span style="color:var(--text-dim);">— Availability</span>
+<div style="color:var(--cyan);">  clear     </div><span style="color:var(--text-dim);">— Clear terminal</span>`,
+
+  whoami: () => `
+<span style="color:var(--yellow);">{</span>
+  <span style="color:var(--purple);">"name"</span>: <span style="color:var(--green);">"Timothy Victor Osas"</span>,
+  <span style="color:var(--purple);">"role"</span>: <span style="color:var(--green);">"Cybersecurity Specialist"</span>,
+  <span style="color:var(--purple);">"degree"</span>: <span style="color:var(--green);">"B.Eng Marine Engineering — First Class Honours"</span>,
+  <span style="color:var(--purple);">"university"</span>: <span style="color:var(--green);">"Nigeria Maritime University (2019–2024)"</span>,
+  <span style="color:var(--purple);">"location"</span>: <span style="color:var(--green);">"Lagos, Nigeria"</span>,
+  <span style="color:var(--purple);">"focus"</span>: <span style="color:var(--green);">"Offensive & Defensive Security, Python Automation"</span>
+<span style="color:var(--yellow);">}</span>`,
+
+  skills: () => `
+<span style="color:var(--yellow);">{</span>
+  <span style="color:var(--purple);">"offensive"</span>: <span style="color:var(--cyan);">["Penetration Testing", "Vulnerability Assessment", "Phishing Simulation"]</span>,
+  <span style="color:var(--purple);">"defensive"</span>: <span style="color:var(--cyan);">["Incident Response", "Digital Forensics", "SIEM", "IDS/IPS"]</span>,
+  <span style="color:var(--purple);">"network"</span>: <span style="color:var(--cyan);">["Firewall Config", "VPN", "Network Monitoring", "Wireshark"]</span>,
+  <span style="color:var(--purple);">"dev"</span>: <span style="color:var(--cyan);">["Python", "Flask", "Bash", "SQL", "C", "Linux"]</span>
+<span style="color:var(--yellow);">}</span>`,
+
+  certs: () => `
+<span style="color:var(--yellow);">"certs"</span>: [
+  <span style="color:var(--green);">✔</span> <span style="color:#fff;">"Google Professional Cybersecurity Certificate"</span>,
+  <span style="color:var(--green);">✔</span> <span style="color:#fff;">"3MTT Nigeria Cybersecurity"</span>,
+  <span style="color:var(--green);">✔</span> <span style="color:#fff;">"Cyber Secured India — Digital Forensics"</span>,
+  <span style="color:var(--green);">✔</span> <span style="color:#fff;">"TECH4DEV Cybersecurity Course"</span>
+]`,
+
+  projects: () => `
+<span style="color:var(--yellow);">"projects"</span>: [
+  <span style="color:var(--cyan);">[01]</span> Securing the Access Grid — Phishing IR Simulation
+  <span style="color:var(--cyan);">[02]</span> Network Security Design — Kafitech
+  <span style="color:var(--cyan);">[03]</span> Website Monitoring Tool (Python)
+  <span style="color:var(--cyan);">[04]</span> Host-Based Firewall Configuration
+  <span style="color:var(--cyan);">[05]</span> Vulnerability Scan Using OpenVAS
+  <span style="color:var(--cyan);">[06]</span> Phishing Email Analyzer
+  <span style="color:var(--cyan);">[07]</span> Password Strength Auditor (Python)
+  <span style="color:var(--cyan);">[08]</span> SOC Alert Triage Simulation
+  <span style="color:var(--cyan);">[09]</span> Linux Hardening Checklist
+<span style="color:var(--text-dim);">→ Visit /projects for full details</span>`,
+
+  tools: () => `
+<span style="color:var(--yellow);">"tools"</span>: [
+  <span style="color:var(--green);">Wireshark</span>   — Network packet analysis
+  <span style="color:var(--green);">Nmap</span>        — Network discovery & port scanning
+  <span style="color:var(--green);">Burp Suite</span>  — Web vulnerability testing
+  <span style="color:var(--green);">Metasploit</span>  — Penetration testing framework
+  <span style="color:var(--green);">OpenVAS</span>     — Vulnerability scanner
+  <span style="color:var(--green);">Nessus</span>      — Enterprise vulnerability management
+  <span style="color:var(--green);">Splunk</span>      — SIEM & log analysis
+  <span style="color:var(--green);">Kali Linux</span>  — Security-focused OS
+]`,
+
+  contact: () => `
+<span style="color:var(--yellow);">"contact"</span>: {
+  <span style="color:var(--purple);">"email"</span>    : <a href="mailto:Timothyv952@gmail.com" style="color:var(--green);">Timothyv952@gmail.com</a>,
+  <span style="color:var(--purple);">"github"</span>   : <a href="https://github.com/Osvic1" target="_blank" style="color:var(--green);">github.com/Osvic1</a>,
+  <span style="color:var(--purple);">"linkedin"</span> : <a href="https://www.linkedin.com/in/timothy-victor-a61421223/" target="_blank" style="color:var(--green);">linkedin.com/in/timothy-victor</a>
+}`,
+
+  status: () => `
+<span style="color:var(--green);">●</span> <span style="color:#fff;">Status:</span> <span style="color:var(--green); font-weight:bold;">OPEN TO OPPORTUNITIES</span>
+<span style="color:var(--text-dim);">  Available for: Full-time · Remote · Contract</span>
+<span style="color:var(--text-dim);">  Roles: SOC Analyst · Pen Tester · Security Engineer</span>
+<span style="color:var(--text-dim);">  Response time: &lt; 24 hours</span>`,
+
+  clear: () => null,
+};
+
+const out = document.getElementById('cli-output');
+const inp = document.getElementById('cli-input');
+let history = [], hIdx = -1;
+
+function addLine(html) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  out.appendChild(div);
+  out.scrollTop = out.scrollHeight;
+}
+
+function runCmd() {
+  const raw = inp.value.trim().toLowerCase();
+  if (!raw) return;
+  history.unshift(raw); hIdx = -1;
+
+  addLine(`<span style="color:var(--green);">timothy@portfolio:~$</span> <span style="color:#fff;">${raw}</span>`);
+
+  if (raw === 'clear') {
+    out.innerHTML = '<div style="color:var(--green);">Terminal cleared.</div>';
+  } else if (COMMANDS[raw]) {
+    addLine(COMMANDS[raw]());
+  } else {
+    addLine(`<span style="color:#ff5555;">command not found: ${raw}</span> — type <span style="color:var(--cyan);">help</span> for available commands`);
+  }
+  inp.value = '';
+}
+
+function quickCmd(cmd) {
+  inp.value = cmd;
+  inp.focus();
+  runCmd();
+}
+
+// Arrow key history
+inp.addEventListener('keydown', e => {
+  if (e.key === 'ArrowUp') { hIdx = Math.min(hIdx+1, history.length-1); inp.value = history[hIdx]||''; }
+  if (e.key === 'ArrowDown') { hIdx = Math.max(hIdx-1, -1); inp.value = hIdx < 0 ? '' : history[hIdx]; }
+});
+</script>
 
 {% endblock %}
