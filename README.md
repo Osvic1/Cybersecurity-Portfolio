@@ -11,8 +11,7 @@
 
 ## 🌐 Live Demo
 
-**[https://your-app-name.koyeb.app](https://your-app-name.koyeb.app)**  
-*(Replace with your actual Koyeb URL after deployment)*
+**[Live Demo](https://timvictor.onrender.com/)**
 
 ---
 
@@ -62,18 +61,18 @@ cybersec_portfolio/
 
 ## 🔒 Security Measures
 
-| Layer | Implementation |
-|---|---|
-| CSRF Protection | Flask-WTF token on every form POST |
+| Layer                   | Implementation                                              |
+| ----------------------- | ----------------------------------------------------------- |
+| CSRF Protection         | Flask-WTF token on every form POST                          |
 | Content Security Policy | Tight CSP header — blocks inline scripts, restricts origins |
-| XSS Protection | `X-XSS-Protection`, HTML escaping on all user inputs |
-| Clickjacking | `X-Frame-Options: DENY` |
-| MIME Sniffing | `X-Content-Type-Options: nosniff` |
-| HTTPS Enforcement | `Strict-Transport-Security` (HSTS) |
-| Input Validation | Email regex, max lengths, whitelist for dropdown values |
-| Secret Key | Enforced from environment — app refuses to start without it |
-| Error Handling | Generic user messages — no internal details leaked |
-| Debug Mode | Tied to `FLASK_ENV=development` — off in production |
+| XSS Protection          | `X-XSS-Protection`, HTML escaping on all user inputs        |
+| Clickjacking            | `X-Frame-Options: DENY`                                     |
+| MIME Sniffing           | `X-Content-Type-Options: nosniff`                           |
+| HTTPS Enforcement       | `Strict-Transport-Security` (HSTS)                          |
+| Input Validation        | Email regex, max lengths, whitelist for dropdown values     |
+| Secret Key              | Enforced from environment — app refuses to start without it |
+| Error Handling          | Generic user messages — no internal details leaked          |
+| Debug Mode              | Tied to `FLASK_ENV=development` — off in production         |
 
 ---
 
@@ -129,6 +128,7 @@ MAIL_PASSWORD=your_gmail_app_password
 ```
 
 **Generating a secure SECRET_KEY:**
+
 ```bash
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
@@ -158,4 +158,4 @@ MIT — feel free to fork and customise for your own portfolio.
 
 ---
 
-*Built with Flask · Secured with love · Hosted on Koyeb*
+_Built with Flask · Secured with love · Hosted on Render_
