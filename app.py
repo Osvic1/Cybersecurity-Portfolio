@@ -20,7 +20,6 @@ from dotenv import load_dotenv
 import os
 import re
 import html
-import secrets
 
 # ── Load environment variables ────────────────────────────────────────────────
 load_dotenv()
@@ -28,7 +27,6 @@ load_dotenv()
 # ── App initialisation ────────────────────────────────────────────────────────
 app = Flask(__name__)
 
-# SECURITY: Secret key MUST come from env — no fallback to weak values
 _secret = os.getenv("SECRET_KEY")
 if not _secret or len(_secret) < 32:
     raise RuntimeError(
@@ -42,38 +40,36 @@ csrf = CSRFProtect(app)
 
 # ── Session & cookie security ─────────────────────────────────────────────────
 app.config.update(
-    # Cookies
-    SESSION_COOKIE_SECURE=True,        # HTTPS only
-    SESSION_COOKIE_HTTPONLY=True,      # No JS access
-    SESSION_COOKIE_SAMESITE="Strict",  # CSRF mitigation
-
-    # Mail — all from env, never hardcoded
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Strict",
     MAIL_SERVER=os.getenv("MAIL_SERVER", "smtp.gmail.com"),
     MAIL_PORT=int(os.getenv("MAIL_PORT", 587)),
-    MAIL_USE_TLS=os.getenv("MAIL_USE_TLS", "True").lower() in ("true", "1", "yes"),
+    MAIL_USE_TLS=os.getenv("MAIL_USE_TLS", "True").lower() in (
+        "true", "1", "yes"),
     MAIL_USE_SSL=False,
     MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
     MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
-
-    # WTF
-    WTF_CSRF_TIME_LIMIT=3600,  # 1 hour CSRF token validity
+    WTF_CSRF_TIME_LIMIT=3600,
 )
 
 mail = Mail(app)
 
 # ── Input sanitisation helpers ────────────────────────────────────────────────
 EMAIL_RE = re.compile(r"^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$")
-MAX_NAME    = 100
-MAX_EMAIL   = 254
+MAX_NAME = 100
+MAX_EMAIL = 254
 MAX_MESSAGE = 2000
 
+
 def sanitize_text(value: str, max_len: int) -> str:
-    """Strip, truncate, and HTML-escape user text."""
     value = value.strip()[:max_len]
     return html.escape(value)
 
+
 def validate_email(value: str) -> bool:
     return bool(EMAIL_RE.match(value)) and len(value) <= MAX_EMAIL
+
 
 # ── Static data ────────────────────────────────────────────────────────────────
 EXPERIENCES = [
@@ -171,21 +167,16 @@ SOCIALS = {
 }
 
 # ── Security headers ──────────────────────────────────────────────────────────
+
+
 @app.after_request
 def set_security_headers(response):
-    # Prevent MIME sniffing
     response.headers["X-Content-Type-Options"] = "nosniff"
-    # Clickjacking protection
     response.headers["X-Frame-Options"] = "DENY"
-    # XSS filter (legacy browsers)
     response.headers["X-XSS-Protection"] = "1; mode=block"
-    # HTTPS enforcement (HSTS)
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
-    # Referrer policy
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    # Permissions policy
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
-    # Content Security Policy — tight, no unsafe-inline for scripts
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; "
         "script-src 'self' 'unsafe-inline' https://unpkg.com https://cdnjs.cloudflare.com; "
@@ -199,27 +190,32 @@ def set_security_headers(response):
         "base-uri 'self'; "
         "form-action 'self';"
     )
-    # Cache static assets aggressively
     if request.path.startswith("/static/"):
         response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
     return response
 
 # ── Routes ────────────────────────────────────────────────────────────────────
+
+
 @app.route("/")
 def home():
     return render_template("index.html", title="Home", socials=SOCIALS)
+
 
 @app.route("/about")
 def about():
     return render_template("about.html", title="About", socials=SOCIALS)
 
+
 @app.route("/education")
 def education():
     return render_template("education.html", title="Education", items=EDUCATION, socials=SOCIALS)
 
+
 @app.route("/experience")
 def experience():
     return render_template("experience.html", title="Experience", items=EXPERIENCES, socials=SOCIALS)
+
 
 @app.route("/projects")
 def projects():
@@ -286,20 +282,18 @@ def projects():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        # ── Collect & sanitise inputs ──────────────────────────────────────
-        raw_name    = request.form.get("name", "")
-        raw_email   = request.form.get("email", "")
+        raw_name = request.form.get("name", "")
+        raw_email = request.form.get("email", "")
         raw_message = request.form.get("message", "")
-        raw_type    = request.form.get("type", "other")
+        raw_type = request.form.get("type", "other")
 
-        name    = sanitize_text(raw_name, MAX_NAME)
-        email   = sanitize_text(raw_email, MAX_EMAIL)
+        name = sanitize_text(raw_name, MAX_NAME)
+        email = sanitize_text(raw_email, MAX_EMAIL)
         message = sanitize_text(raw_message, MAX_MESSAGE)
 
         ALLOWED_TYPES = {"project", "collaboration", "mentorship", "other"}
         inquiry_type = raw_type if raw_type in ALLOWED_TYPES else "other"
 
-        # ── Field validation ───────────────────────────────────────────────
         errors = []
         if not name:
             errors.append("Name is required.")
@@ -313,7 +307,6 @@ def contact():
                 flash(f"⚠ {err}", "danger")
             return redirect(url_for("contact"))
 
-        # ── Send email if configured ───────────────────────────────────────
         if not (app.config.get("MAIL_USERNAME") and app.config.get("MAIL_PASSWORD")):
             flash("✅ Message received (email not configured on server).", "success")
             return redirect(url_for("contact"))
@@ -336,7 +329,6 @@ def contact():
             mail.send(msg)
             flash("✅ Your message has been sent successfully!", "success")
         except Exception:
-            # SECURITY: Never expose internal exception details to users
             flash("❌ Could not send your message. Please try again later.", "danger")
 
         return redirect(url_for("contact"))
@@ -347,55 +339,62 @@ def contact():
 # ── Resume download route ──────────────────────────────────────────────────────
 @app.route("/resume")
 def resume():
-    import os
     from flask import send_from_directory
     resume_dir = os.path.join(app.root_path, "static", "resume")
-    # Find whatever PDF is in the resume folder
     pdfs = [f for f in os.listdir(resume_dir) if f.lower().endswith(".pdf")]
     if not pdfs:
         abort(404)
     return send_from_directory(resume_dir, pdfs[0], as_attachment=False)
 
 
-# ── AI Chat API route ──────────────────────────────────────────────────────────
+# ── AI Chat debug route ────────────────────────────────────────────────────────
 @app.route("/api/debug")
 def debug_chat():
     """Temporary debug endpoint — remove before production"""
-    import json, urllib.request
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    import json
+    import urllib.request
+    api_key = os.environ.get("GROQ_API_KEY", "")
     if not api_key:
-        return {"status": "ERROR", "reason": "ANTHROPIC_API_KEY is not set in .env"}, 200
-    if not api_key.startswith("sk-ant"):
-        return {"status": "ERROR", "reason": f"Key looks wrong. Got: {api_key[:12]}..."}, 200
+        return {"status": "ERROR", "reason": "GROQ_API_KEY is not set in .env"}, 200
 
     payload = json.dumps({
-        "model": "claude-sonnet-4-20250514",
-        "max_tokens": 20,
-        "messages": [{"role": "user", "content": "say hi"}]
+        "model": "llama3-8b-8192",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "say hi"}
+        ],
+        "max_tokens": 20
     }).encode()
 
     req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
+        "https://api.groq.com/openai/v1/chat/completions",
         data=payload,
-        headers={"Content-Type": "application/json", "anthropic-version": "2023-06-01", "x-api-key": api_key},
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}"
+        },
         method="POST"
     )
     try:
         with urllib.request.urlopen(req, timeout=10) as resp:
-            return {"status": "OK", "key_prefix": api_key[:16] + "...", "response": json.loads(resp.read())["content"][0]["text"]}
+            result = json.loads(resp.read())
+            reply = result["choices"][0]["message"]["content"]
+            return {"status": "OK", "key_prefix": api_key[:12] + "...", "response": reply}
     except urllib.error.HTTPError as e:
         return {"status": "HTTP_ERROR", "code": e.code, "body": e.read().decode()}, 200
     except Exception as e:
         return {"status": "EXCEPTION", "error": str(e), "type": type(e).__name__}, 200
 
 
+# ── AI Chat API route ──────────────────────────────────────────────────────────
 @app.route("/api/chat", methods=["POST"])
 def chat():
-    import json, urllib.request
+    import json
+    import urllib.request
     data = request.get_json(silent=True)
     if not data or not data.get("message"):
         return {"error": "No message"}, 400
-    user_msg = str(data["message"])[:500]  # cap length
+    user_msg = str(data["message"])[:500]
 
     SYSTEM = (
         "You are Timothy Victor Osas's portfolio assistant — a sharp, concise cybersecurity AI. "
@@ -410,36 +409,37 @@ def chat():
         "politely redirect to his portfolio topics."
     )
 
-    payload = json.dumps({
-        "model": "claude-sonnet-4-20250514",
-        "max_tokens": 300,
-        "system": SYSTEM,
-        "messages": [{"role": "user", "content": user_msg}]
-    }).encode()
-
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    api_key = os.environ.get("GROQ_API_KEY", "")
     if not api_key:
         return {"reply": "Chat is not configured yet. Please contact Timothy at Timothyv952@gmail.com"}, 200
 
+    payload = json.dumps({
+        "model": "llama3-8b-8192",
+        "messages": [
+            {"role": "system", "content": SYSTEM},
+            {"role": "user", "content": user_msg}
+        ],
+        "max_tokens": 300
+    }).encode()
+
     req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
+        "https://api.groq.com/openai/v1/chat/completions",
         data=payload,
         headers={
             "Content-Type": "application/json",
-            "anthropic-version": "2023-06-01",
-            "x-api-key": api_key
+            "Authorization": f"Bearer {api_key}"
         },
         method="POST"
     )
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
             result = json.loads(resp.read())
-            reply = result["content"][0]["text"]
+            reply = result["choices"][0]["message"]["content"]
             return {"reply": reply}
     except urllib.error.HTTPError as e:
         err_body = e.read().decode("utf-8", errors="ignore")
-        app.logger.error(f"Anthropic API HTTP error {e.code}: {err_body}")
-        return {"reply": f"API error {e.code}. Check your ANTHROPIC_API_KEY."}, 200
+        app.logger.error(f"Groq API error {e.code}: {err_body}")
+        return {"reply": f"API error {e.code}. Check your GROQ_API_KEY."}, 200
     except Exception as e:
         app.logger.error(f"Chat route error: {e}")
         return {"reply": f"Connection error: {str(e)}"}, 200
@@ -450,9 +450,11 @@ def chat():
 def not_found(e):
     return render_template("404.html", title="404 – Not Found"), 404
 
+
 @app.errorhandler(403)
 def forbidden(e):
     return render_template("404.html", title="403 – Forbidden"), 403
+
 
 @app.errorhandler(500)
 def server_error(e):
@@ -460,6 +462,5 @@ def server_error(e):
 
 
 if __name__ == "__main__":
-    # SECURITY: debug=False in production — use gunicorn/waitress instead
     debug_mode = os.getenv("FLASK_ENV", "production").lower() == "development"
     app.run(debug=debug_mode, host="127.0.0.1", port=5000)
