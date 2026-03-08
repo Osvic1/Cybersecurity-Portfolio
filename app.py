@@ -348,6 +348,7 @@ def resume():
 
 
 # ── AI Chat debug route ────────────────────────────────────────────────────────
+@csrf.exempt
 @app.route("/api/debug")
 def debug_chat():
     """Temporary debug endpoint — remove before production"""
@@ -358,7 +359,7 @@ def debug_chat():
         return {"status": "ERROR", "reason": "GROQ_API_KEY is not set in .env"}, 200
 
     payload = json.dumps({
-        "model": "llama3-8b-8192",
+        "model": "llama-3.3-70b-versatile",
         "messages": [
             {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": "say hi"}
@@ -371,7 +372,8 @@ def debug_chat():
         data=payload,
         headers={
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}"
+            "Authorization": f"Bearer {api_key}",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         },
         method="POST"
     )
@@ -387,6 +389,7 @@ def debug_chat():
 
 
 # ── AI Chat API route ──────────────────────────────────────────────────────────
+@csrf.exempt
 @app.route("/api/chat", methods=["POST"])
 def chat():
     import json
@@ -414,7 +417,7 @@ def chat():
         return {"reply": "Chat is not configured yet. Please contact Timothy at Timothyv952@gmail.com"}, 200
 
     payload = json.dumps({
-        "model": "llama3-8b-8192",
+        "model": "llama-3.3-70b-versatile",
         "messages": [
             {"role": "system", "content": SYSTEM},
             {"role": "user", "content": user_msg}
@@ -427,7 +430,8 @@ def chat():
         data=payload,
         headers={
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}"
+            "Authorization": f"Bearer {api_key}",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         },
         method="POST"
     )
