@@ -113,20 +113,6 @@ flask run
 
 ---
 
-## ⚙️ Environment Variables
-
-Copy `.env.example` to `.env` and fill in your values:
-
-```env
-FLASK_ENV=development
-SECRET_KEY=your_64_char_random_hex_here
-MAIL_SERVER=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USE_TLS=True
-MAIL_USERNAME=your.email@gmail.com
-MAIL_PASSWORD=your_gmail_app_password
-```
-
 **Generating a secure SECRET_KEY:**
 
 ```bash
@@ -135,20 +121,6 @@ python -c "import secrets; print(secrets.token_hex(32))"
 
 **Gmail App Password:**
 Google Account → Security → 2-Step Verification → App Passwords → Generate
-
----
-
-## ☁️ Deploying to Koyeb (Free, Never Sleeps)
-
-1. Push this repo to GitHub
-2. Go to [koyeb.com](https://koyeb.com) → Sign up free
-3. New App → **GitHub** → Select your repo
-4. Set **Build command:** `pip install -r requirements.txt`
-5. Set **Run command:** `gunicorn wsgi:app`
-6. Add environment variables (from your `.env`) in the Koyeb dashboard
-7. Deploy — your app gets a permanent `*.koyeb.app` URL
-
-See full guide: [DEPLOYMENT.md](DEPLOYMENT.md)
 
 ---
 
