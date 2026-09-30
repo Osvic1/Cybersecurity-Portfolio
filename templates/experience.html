@@ -1,44 +1,43 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon %}
 {% block content %}
 
-<section style="padding-top:4rem;">
-  <div class="terminal-label" style="margin-bottom:1.5rem;">cat experience.log</div>
-  <h1 class="section-title" style="margin-bottom:3rem;">Work <span class="accent">Experience</span></h1>
+<section class="hero" style="padding-bottom:48px;">
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="eyebrow reveal" style="margin-bottom:24px;">Experience</div>
+    <h1 class="h1 reveal" style="--d:80ms; max-width:15ch;">From engine rooms to <em>API security</em> and AI.</h1>
+    <p class="lead reveal" style="--d:160ms; margin-top:24px;">
+      A marine engineering degree, then a move into software, security and machine learning.
+    </p>
+  </div>
+</section>
 
-  <div style="position:relative; padding-left:2rem;">
-    <!-- Timeline line -->
-    <div style="position:absolute; left:7px; top:0; bottom:0; width:2px; background:linear-gradient(180deg, var(--green), transparent);"></div>
-
-    {% for item in items %}
-    <div class="card" style="padding:1.75rem; margin-bottom:1.5rem; margin-left:1rem; position:relative;" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
-      <!-- Dot on timeline -->
-      <div style="position:absolute; left:-1.75rem; top:1.75rem; width:12px; height:12px; border-radius:50%;
-                  background:var(--green); border:2px solid var(--bg); box-shadow:0 0 8px rgba(0,255,136,0.5);"></div>
-
-      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:0.5rem; margin-bottom:0.75rem;">
+<section class="section" style="padding-top:24px;">
+  <div class="container">
+    <div class="timeline">
+      {% for item in items %}
+      {% set current = 'Present' in item.period %}
+      <article class="tl-item reveal{{ ' is-current' if current }}">
+        <div class="tl-when">
+          <span>{{ item.period }}</span>
+          {% if item.location %}<span>{{ item.location }}</span>{% endif %}
+          {% if current %}<span class="current"><span class="dot"></span> Current</span>{% endif %}
+        </div>
         <div>
-          <h3 style="color:#fff; font-size:1.05rem;">{{ item.role }}</h3>
-          <div style="color:var(--green); font-family:var(--font-mono); font-size:0.8rem;">{{ item.company }}</div>
+          <h3 class="h3">{{ item.role }}</h3>
+          <div class="tl-company">{% if item.url %}<a href="{{ item.url }}" class="link-arrow" target="_blank" rel="noopener noreferrer">{{ item.company }} {{ icon("arrow-up-right", 14) }}</a>{% else %}{{ item.company }}{% endif %}</div>
+          <ul>{% for b in item.bullets %}<li>{{ b }}</li>{% endfor %}</ul>
+          <div class="chips">{% for s in item.skills %}<span class="chip">{{ s }}</span>{% endfor %}</div>
         </div>
-        <div style="text-align:right; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim);">
-          <div>{{ item.period }}</div>
-          <div>{{ item.location }}</div>
-        </div>
-      </div>
-
-      <ul style="margin-bottom:1rem; padding-left:1.25rem;">
-        {% for bullet in item.bullets %}
-        <li style="color:var(--text-dim); font-size:0.88rem; line-height:1.7; margin-bottom:0.3rem;">{{ bullet }}</li>
-        {% endfor %}
-      </ul>
-
-      <div style="display:flex; flex-wrap:wrap; gap:5px;">
-        {% for skill in item.skills %}
-        <span class="tag">{{ skill }}</span>
-        {% endfor %}
-      </div>
+      </article>
+      {% endfor %}
     </div>
-    {% endfor %}
+
+    <div style="margin-top:48px; display:flex; flex-wrap:wrap; gap:12px;">
+      <a href="{{ url_for('resume') }}" class="btn btn-primary" target="_blank" rel="noopener">{{ icon("download", 17) }} Full résumé</a>
+      <a href="{{ url_for('projects') }}" class="btn btn-ghost">See the work {{ icon("arrow-right", 17) }}</a>
+    </div>
   </div>
 </section>
 

@@ -1,0 +1,82 @@
+{% from "_icons.html" import icon %}
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Introduction" hidden>
+  <div class="intro-top">
+    <div class="intro-progress" aria-hidden="true">
+      {% for i in range(7) %}<span><i></i></span>{% endfor %}
+    </div>
+    <div class="intro-bar">
+      <span class="intro-year mono" id="introYear">2019</span>
+      <button class="intro-skip" type="button" id="introSkip">Skip intro {{ icon("x", 15) }}</button>
+    </div>
+  </div>
+
+  <div class="intro-stage">
+    <section class="scene" data-year="Lagos" data-ms="3600">
+      <p class="scene-kicker">A short story, told in under a minute</p>
+      <h2 class="scene-title">Timothy <em>Victor</em></h2>
+      <p class="scene-sub">Security engineer · AI research · Full-stack</p>
+    </section>
+
+    <section class="scene" data-year="2019 – 2024" data-ms="5200">
+      <p class="scene-kicker">Chapter one</p>
+      <h2 class="scene-title">It started in <em>engine rooms</em>.</h2>
+      <p class="scene-sub">Marine engineering at Nigeria Maritime University, finished with First Class Honours.
+        Diesel engines taught me to learn how a system fails before I trust it to run.</p>
+      <div class="scene-stats">
+        <div><strong>B.Eng.</strong><span>Marine Engineering</span></div>
+        <div><strong>1st</strong><span>Class Honours</span></div>
+      </div>
+    </section>
+
+    <section class="scene" data-year="2023 – 2025" data-ms="5200">
+      <p class="scene-kicker">Chapter two</p>
+      <h2 class="scene-title">Then I turned to <em>security</em>.</h2>
+      <p class="scene-sub">Google's cybersecurity certificate, digital forensics, the 3MTT programme, and Python
+        tools for monitoring and vulnerability work.</p>
+      <div class="scene-chips">
+        <span>Google Cybersecurity</span><span>Digital Forensics</span><span>3MTT Nigeria</span><span>Python</span><span>Linux</span>
+      </div>
+    </section>
+
+    <section class="scene" data-year="2026" data-ms="6000">
+      <p class="scene-kicker">Chapter three</p>
+      <h2 class="scene-title">Now I test APIs <em>like an attacker</em>.</h2>
+      <div class="scene-stats">
+        <div><strong data-count="54">0</strong><span>findings reported</span></div>
+        <div><strong data-count="780" data-suffix="+">0</strong><span>routes &amp; operations tested</span></div>
+        <div><strong data-count="1001">0</strong><span>test cases in one engagement</span></div>
+      </div>
+      <div class="scene-sev" aria-hidden="true">
+        <span class="sev-critical" style="flex:11"></span><span class="sev-high" style="flex:11"></span>
+        <span class="sev-medium" style="flex:20"></span><span class="sev-low" style="flex:9"></span><span class="sev-info" style="flex:3"></span>
+      </div>
+    </section>
+
+    <section class="scene scene-split" data-year="2026" data-ms="6400">
+      <div>
+        <p class="scene-kicker">Chapter four</p>
+        <h2 class="scene-title">And I build <em>AI products</em>.</h2>
+        <p class="scene-sub">AtomStudio fine-tunes language models on GPUs rented by the minute. A CRM I work on
+          runs delivery at CrowtherLabs-THCO in production.</p>
+      </div>
+      <div class="scene-shots" aria-hidden="true">
+        <img src="{{ url_for('static', filename='images/projects/atom1.png') }}" alt="" loading="lazy"/>
+        <img src="{{ url_for('static', filename='images/projects/crm2.png') }}" alt="" loading="lazy"/>
+      </div>
+    </section>
+
+    <section class="scene" data-year="Next" data-ms="5200">
+      <p class="scene-kicker">Where I'm headed</p>
+      <h2 class="scene-title">AI systems that are <em>secure by design</em>.</h2>
+      <p class="scene-sub">Building intelligent products and testing them the way attackers would, with teams anywhere in the world.</p>
+    </section>
+
+    <section class="scene" data-year="Welcome" data-ms="0">
+      <h2 class="scene-title">Welcome.</h2>
+      <p class="scene-sub">Have a look around.</p>
+      <button class="btn btn-accent" type="button" id="introEnter" style="margin-top:28px;">Enter the site {{ icon("arrow-right", 17) }}</button>
+    </section>
+  </div>
+
+  <div class="intro-nav mono" aria-hidden="true">← → to step · Esc to skip</div>
+</div>

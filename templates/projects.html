@@ -1,73 +1,105 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% from "_work.html" import visual %}
 {% block content %}
 
-<section style="padding-top:4rem;">
-  <div class="terminal-label" style="margin-bottom:1.5rem;">ls -la ./projects/ | grep cybersec</div>
-  <h1 class="section-title" style="margin-bottom:3rem;">Security <span class="accent">Projects</span></h1>
+{% set builds   = projects|selectattr("group", "equalto", "build")|list %}
+{% set security = projects|selectattr("group", "equalto", "security")|list %}
+{% set labs     = projects|selectattr("group", "equalto", "lab")|list %}
 
-  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:1.5rem;">
-    {% for project in projects %}
-    <div class="card" style="padding:0; overflow:hidden; display:flex; flex-direction:column;" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
-
-      <!-- Image slider -->
-      <div style="position:relative; overflow:hidden; aspect-ratio:16/9; background:#000;">
-        {% for img in project.images %}
-        <img src="{{ img }}" alt="{{ project.title }} screenshot {{ loop.index }}"
-             style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;
-                    opacity:{{ '1' if loop.first else '0' }}; transition:opacity 0.6s;"
-             class="proj-slide" data-group="proj-{{ loop.index0 }}-grp-{{ loop.revindex }}"/>
-        {% endfor %}
-        <!-- Slide indicator dots -->
-        <div style="position:absolute; bottom:8px; right:10px; display:flex; gap:5px;">
-          {% for img in project.images %}
-          <span style="width:6px; height:6px; border-radius:50%;
-                       background:{{ 'var(--green)' if loop.first else 'rgba(255,255,255,0.3)' }};
-                       transition:background 0.3s;" class="proj-dot"></span>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div style="padding:1.5rem; flex:1; display:flex; flex-direction:column;">
-        <h3 style="color:#fff; font-size:1rem; margin-bottom:0.5rem; line-height:1.4;">{{ project.title }}</h3>
-        <p style="color:var(--text-dim); font-size:0.85rem; line-height:1.7; flex:1; margin-bottom:1rem;">{{ project.description }}</p>
-
-        <div style="display:flex; flex-wrap:wrap; gap:5px; margin-bottom:1rem;">
-          {% for tag in project.tags %}
-          <span class="tag">{{ tag }}</span>
-          {% endfor %}
-        </div>
-
-        {% if project.link %}
-        <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:0.75rem; padding:8px 16px; align-self:flex-start;">
-          <i class="fas fa-external-link-alt"></i> View Report
-        </a>
-        {% else %}
-        <span style="font-size:0.75rem; padding:8px 16px; background:#1a1f2e; border:1px solid #30363d; border-radius:8px; color:#555; font-family:var(--font-mono); align-self:flex-start;">
-          <i class="fas fa-clock"></i> Coming Soon
-        </span>
-        {% endif %}
-        </a>
-      </div>
-    </div>
-    {% endfor %}
+<section class="hero" style="padding-bottom:48px;">
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="eyebrow reveal" style="margin-bottom:24px;">Work · {{ projects|length }} projects</div>
+    <h1 class="h1 reveal" style="--d:80ms; max-width:14ch;">Products I've built, systems I've <em>tested</em>.</h1>
+    <p class="lead reveal" style="--d:160ms; margin-top:24px;">
+      Production platforms, authorised security assessments and earlier lab work. Client names and technical
+      details of every assessment stay confidential. What you see here is scope, method and outcome.
+    </p>
   </div>
 </section>
 
-<script>
-  // Auto-rotate project images
-  document.querySelectorAll('.card').forEach(card => {
-    const slides = card.querySelectorAll('.proj-slide');
-    const dots   = card.querySelectorAll('.proj-dot');
-    if (slides.length < 2) return;
-    let idx = 0;
-    setInterval(() => {
-      slides[idx].style.opacity = '0';
-      dots[idx].style.background = 'rgba(255,255,255,0.3)';
-      idx = (idx + 1) % slides.length;
-      slides[idx].style.opacity = '1';
-      dots[idx].style.background = 'var(--green)';
-    }, 3000);
-  });
-</script>
+<section style="padding-bottom:40px;">
+  <div class="container">
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All<span class="count">{{ projects|length }}</span></button>
+      <button class="filter-btn" type="button" data-filter="build" aria-pressed="false">Engineering &amp; AI<span class="count">{{ builds|length }}</span></button>
+      <button class="filter-btn" type="button" data-filter="security" aria-pressed="false">Security assessments<span class="count">{{ security|length }}</span></button>
+      <button class="filter-btn" type="button" data-filter="lab" aria-pressed="false">Earlier &amp; lab work<span class="count">{{ labs|length }}</span></button>
+    </div>
 
+    <div id="cases">
+      {% for p in builds + security %}
+      <article class="card case reveal" id="{{ p.slug }}" data-group="{{ p.group }}">
+        {{ visual(p) }}
+        <div class="case-body">
+          <div class="work-kicker">{{ p.category }}</div>
+          <h2 class="h3" style="font-size:clamp(24px,2.6vw,32px); letter-spacing:-0.03em;">{{ p.title }}</h2>
+          <div class="case-role">{{ p.role }}</div>
+          <p class="muted">{{ p.description }}</p>
+          {% if p.scope %}
+          <div class="case-scope">{% for s in p.scope %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+          {% endif %}
+          <ul class="case-list">
+            {% for h in p.highlights %}<li>{{ h }}</li>{% endfor %}
+          </ul>
+          <div class="case-foot">
+            <div class="chips">{% for t in p.tags %}<span class="chip">{{ t }}</span>{% endfor %}</div>
+            {% if p.note %}<span class="note">{{ icon("lock", 14) }} {{ p.note }}</span>{% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="labs-section" data-group="lab" style="padding-top:40px;">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" style="margin-bottom:18px;">Earlier &amp; lab work</div>
+        <h2 class="h2">Where it <em>started</em>.</h2>
+      </div>
+    </div>
+    <div class="lab-grid">
+      {% for p in labs %}
+      <article class="card lab-card reveal" id="{{ p.slug }}" style="--d:{{ (loop.index0 % 3) * 60 }}ms;">
+        {{ visual(p) }}
+        <div class="work-body">
+          <h3 class="h3" style="font-size:18px;">{{ p.title }}</h3>
+          <p>{{ p.description }}</p>
+          <div class="case-foot">
+            <div class="chips">{% for t in p.tags[:3] %}<span class="chip">{{ t }}</span>{% endfor %}</div>
+            {% if p.link %}
+            <a href="{{ p.link }}" class="link-arrow" target="_blank" rel="noopener noreferrer" style="font-size:14px;">Read report {{ icon("arrow-up-right", 14) }}</a>
+            {% else %}
+            <span class="note">Write-up in progress</span>
+            {% endif %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var buttons = document.querySelectorAll('.filter-btn');
+  var cases = document.querySelectorAll('#cases .case');
+  var labs = document.getElementById('labs-section');
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var f = btn.getAttribute('data-filter');
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      cases.forEach(function (c) { c.hidden = !(f === 'all' || c.getAttribute('data-group') === f); });
+      labs.hidden = !(f === 'all' || f === 'lab');
+    });
+  });
+})();
+</script>
 {% endblock %}

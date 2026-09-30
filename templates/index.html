@@ -1,405 +1,204 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% from "_work.html" import work_card %}
 {% block content %}
 
-<!-- ── HERO ───────────────────────────────────────────────────────────────── -->
-<section style="padding-top:4rem; padding-bottom:2rem;">
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;" class="hero-grid">
+<section class="hero">
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="container">
+    <span class="pill reveal"><span class="dot"></span> Open to new roles and security engagements</span>
 
-    <!-- Left: Identity -->
-    <div data-aos="fade-right">
-      <div class="terminal-label" style="margin-bottom:1.5rem;">
-        <span style="color:var(--green);">whoami</span>
-      </div>
+    <h1 class="display reveal" style="--d:80ms;">Secure systems, <em>smarter</em> software.</h1>
 
-      <h1 style="font-size:clamp(2.2rem,5vw,4rem); font-weight:800; line-height:1.1; color:#fff; margin-bottom:1rem;">
-        Timothy<br>
-        <span style="color:var(--green);">Victor Osas</span>
-      </h1>
-
-      <div style="font-family:var(--font-mono); font-size:0.9rem; color:var(--cyan); margin-bottom:1.5rem; min-height:1.4rem;">
-        <span id="role-text"></span><span class="cursor"></span>
-      </div>
-
-      <p style="color:var(--text-dim); line-height:1.8; max-width:520px; margin-bottom:2rem;">
-        First Class Honours Marine Engineering graduate pivoting to defend digital frontiers.
-        Specialising in <strong style="color:var(--text);">threat detection</strong>, 
-        <strong style="color:var(--text);">incident response</strong>, and 
-        <strong style="color:var(--text);">digital forensics</strong>. 
-        Every system deserves a guardian.
-      </p>
-
-      <div style="display:flex; flex-wrap:wrap; gap:1rem;">
-        <a href="{{ url_for('projects') }}" class="btn-primary">
-          <i class="fas fa-terminal"></i> View Projects
-        </a>
-        <a href="/resume" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-          <i class="fas fa-file-shield"></i> Download CV
-        </a>
-        <a href="{{ url_for('contact') }}" class="btn-secondary">
-          <i class="fas fa-satellite-dish"></i> Contact
-        </a>
-      </div>
-
-      <!-- Social row -->
-      <div style="display:flex; gap:1.5rem; margin-top:2rem;">
-        <a href="{{ socials.github }}" target="_blank" rel="noopener noreferrer"
-           style="color:var(--text-dim); font-size:1.3rem; transition:color 0.2s;"
-           onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text-dim)'"
-           aria-label="GitHub">
-          <i class="fab fa-github"></i>
-        </a>
-        <a href="{{ socials.linkedin }}" target="_blank" rel="noopener noreferrer"
-           style="color:var(--text-dim); font-size:1.3rem; transition:color 0.2s;"
-           onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color='var(--text-dim)'"
-           aria-label="LinkedIn">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="{{ socials.email }}"
-           style="color:var(--text-dim); font-size:1.3rem; transition:color 0.2s;"
-           onmouseover="this.style.color='var(--yellow)'" onmouseout="this.style.color='var(--text-dim)'"
-           aria-label="Email">
-          <i class="fas fa-envelope"></i>
-        </a>
-      </div>
-    </div>
-
-    <!-- Right: Terminal window -->
-    <div data-aos="fade-left">
-      <div class="card" style="border-color:rgba(0,255,136,0.2);">
-        <!-- Terminal title bar -->
-        <div style="background:rgba(0,0,0,0.4); padding:10px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; border-radius:8px 8px 0 0;">
-          <span style="width:12px;height:12px;border-radius:50%;background:#ff5f57;"></span>
-          <span style="width:12px;height:12px;border-radius:50%;background:#ffbd2e;"></span>
-          <span style="width:12px;height:12px;border-radius:50%;background:#28c840;"></span>
-          <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-dim); margin-left:8px;">security-profile.sh</span>
+    <div class="hero-foot">
+      <div class="reveal" style="--d:160ms;">
+        <p class="lead">
+          I'm Timothy Victor, a security engineer, LLM researcher and full-stack engineer in Lagos.
+          I lead penetration tests to OWASP standards and build AI platforms that run in production.
+        </p>
+        <div class="hero-actions">
+          <a href="{{ url_for('projects') }}" class="btn btn-primary">See my work {{ icon("arrow-right", 17) }}</a>
+          <a href="{{ url_for('resume') }}" class="btn btn-ghost" target="_blank" rel="noopener">{{ icon("download", 17) }} Résumé</a>
         </div>
-        <!-- Terminal body -->
-        <div style="padding:1.5rem; font-family:var(--font-mono); font-size:0.8rem; line-height:2;">
-          <div><span style="color:var(--text-dim);">$</span> <span style="color:var(--cyan);">cat</span> <span style="color:var(--text);">profile.json</span></div>
-          <div style="margin-top:0.5rem; color:var(--text-dim);">{</div>
-          <div style="padding-left:1.5rem;">
-            <div><span style="color:var(--yellow);">"name"</span>: <span style="color:var(--green);">"Timothy Victor Osas"</span>,</div>
-            <div><span style="color:var(--yellow);">"role"</span>: <span style="color:var(--green);">"Cybersecurity Specialist"</span>,</div>
-            <div><span style="color:var(--yellow);">"certs"</span>: [</div>
-            <div style="padding-left:1.5rem; color:var(--green);">
-              "Google Cybersecurity Professional",<br>
-              "3MTT Nigeria Cybersecurity",<br>
-              "Cyber Secured India – Forensics",<br>
-              "TECH4DEV Cybersecurity"
-            </div>
-            <div>],</div>
-            <div><span style="color:var(--yellow);">"tools"</span>: <span style="color:var(--purple);">["Wireshark","Burp Suite","OpenVAS","Metasploit","Nmap"]</span>,</div>
-            <div><span style="color:var(--yellow);">"status"</span>: <span style="color:var(--green);">"open_to_opportunities"</span></div>
-          </div>
-          <div style="color:var(--text-dim);">}</div>
-          <div style="margin-top:0.5rem;"><span style="color:var(--text-dim);">$</span> <span class="cursor"></span></div>
+        <button class="intro-replay" type="button" data-intro-replay>
+          <span class="play"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg></span>
+          Watch the intro · 30 seconds
+        </button>
+      </div>
+      <ul class="roles reveal" style="--d:240ms;" aria-label="Disciplines">
+        <li><span class="mono">01</span> Security Engineer</li>
+        <li><span class="mono">02</span> AI Research (LLMs)</li>
+        <li><span class="mono">03</span> AI Full-Stack Engineer</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight" style="padding-top:0;">
+  <div class="container">
+    <div class="metrics reveal">
+      <div class="metric"><div class="metric-value">54</div><div class="metric-label">Security findings reported in recent API assessments</div></div>
+      <div class="metric"><div class="metric-value">780<sup>+</sup></div><div class="metric-label">API routes and operations tested</div></div>
+      <div class="metric"><div class="metric-value">400<sup>+</sup></div><div class="metric-label">Commits shipped on two production platforms</div></div>
+      <div class="metric"><div class="metric-value">1<sup>st</sup></div><div class="metric-label">Class Honours, B.Eng. Marine Engineering</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow"><span class="num">01</span> What I do</div>
+        <h2 class="h2 reveal">Three disciplines, <em>one</em> engineer.</h2>
+      </div>
+    </div>
+
+    <div class="disciplines">
+      <article class="card discipline reveal">
+        <div class="icon-wrap">{{ icon("shield", 22) }}</div>
+        <h3 class="h3">Security engineering</h3>
+        <p>I test APIs the way an attacker would: authorisation, tenant isolation, business logic and input handling. Every finding comes with a CVSS score, a root cause and a fix plan engineers can act on.</p>
+        <div class="chips"><span class="chip">OWASP API Top 10</span><span class="chip">PTES</span><span class="chip">CVSS v3.1</span><span class="chip">Postman</span><span class="chip">Burp Suite</span></div>
+      </article>
+      <article class="card discipline reveal" style="--d:80ms;">
+        <div class="icon-wrap">{{ icon("flask", 22) }}</div>
+        <h3 class="h3">AI research (LLMs)</h3>
+        <p>I fine-tune and evaluate open-weight language models: preparing and checking datasets, LoRA and QLoRA training on rented GPUs, and judging the result against the base model side by side.</p>
+        <div class="chips"><span class="chip">Unsloth</span><span class="chip">LoRA / QLoRA</span><span class="chip">Hugging Face</span><span class="chip">Evaluation</span><span class="chip">Vast.ai</span></div>
+      </article>
+      <article class="card discipline reveal" style="--d:160ms;">
+        <div class="icon-wrap">{{ icon("layers", 22) }}</div>
+        <h3 class="h3">AI full-stack engineering</h3>
+        <p>I build and run the whole product: FastAPI services, React front ends, containers and CI/CD, deployed to Azure and kept secure after launch.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">React</span><span class="chip">Docker</span><span class="chip">Azure</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow"><span class="num">02</span> Selected work</div>
+        <h2 class="h2 reveal">Recent projects and <em>assessments</em>.</h2>
+      </div>
+      <a href="{{ url_for('projects') }}" class="link-arrow">All projects {{ icon("arrow-right", 16) }}</a>
+    </div>
+
+    <div class="work-grid">
+      {% for p in featured %}{{ work_card(p, (loop.index0 % 2) * 80) }}{% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if chat_enabled %}
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="split split-wide" style="align-items:center;">
+      <div>
+        <div class="eyebrow" style="margin-bottom:18px;"><span class="num">03</span> Quick questions</div>
+        <h2 class="h2 reveal">Short on time? <em>Ask</em> here.</h2>
+        <p class="lead" style="margin-top:20px;">
+          Ask about my experience, projects or availability and get a short answer straight away. For anything detailed, email me.
+        </p>
+      </div>
+
+      <div class="card chat reveal" style="--d:80ms;">
+        <div class="chat-head"><span class="dot"></span> <strong>Assistant</strong> <span class="faint" style="margin-left:auto; font-size:13px;">Replies in seconds</span></div>
+        <div class="chat-log" id="chatLog" aria-live="polite">
+          <div class="msg bot">Hi, I can answer questions about Timothy's work, skills and availability.</div>
         </div>
+        <div class="chat-suggest" id="chatSuggest">
+          <button type="button">What does Timothy work on?</button>
+          <button type="button">Tell me about AtomStudio</button>
+          <button type="button">Is he open to roles?</button>
+        </div>
+        <form class="chat-form" id="chatForm" autocomplete="off">
+          <label for="chatInput" class="sr-only">Your question</label>
+          <input id="chatInput" class="input" type="text" maxlength="300" placeholder="Type a question" required/>
+          <button class="btn btn-primary" type="submit" aria-label="Send" style="width:46px; height:46px; padding:0;">{{ icon("send", 17) }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="card cta reveal">
+      <div class="bg-glow" aria-hidden="true"></div>
+      <div class="eyebrow" style="margin-bottom:18px;">Let's work together</div>
+      <h2 class="h1" style="max-width:16ch;">An API that needs testing, or an AI product to <em>build</em>?</h2>
+      <div class="cta-actions">
+        <a href="{{ url_for('contact') }}" class="btn btn-accent">Start a conversation {{ icon("arrow-right", 17) }}</a>
+        <a href="{{ socials.email }}" class="btn btn-ghost">{{ icon("mail", 17) }} Timothyv952@gmail.com</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── STATS ──────────────────────────────────────────────────────────────── -->
-<section id="stats" style="padding:2rem 0 4rem;" data-aos="fade-up">
-  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1rem;">
-    <div class="card" style="padding:1.5rem; text-align:center;">
-      <div style="font-size:2.5rem; font-weight:800; color:var(--green); font-family:var(--font-mono);" class="stat-num" data-target="4">0</div>
-      <div style="font-size:0.8rem; color:var(--text-dim); margin-top:0.3rem; font-family:var(--font-mono);">Certifications</div>
-    </div>
-    <div class="card" style="padding:1.5rem; text-align:center;">
-      <div style="font-size:2.5rem; font-weight:800; color:var(--cyan); font-family:var(--font-mono);" class="stat-num" data-target="5">0</div>
-      <div style="font-size:0.8rem; color:var(--text-dim); margin-top:0.3rem; font-family:var(--font-mono);">Security Projects</div>
-    </div>
-    <div class="card" style="padding:1.5rem; text-align:center;">
-      <div style="font-size:2.5rem; font-weight:800; color:var(--yellow); font-family:var(--font-mono);" class="stat-num" data-target="3">0</div>
-      <div style="font-size:0.8rem; color:var(--text-dim); margin-top:0.3rem; font-family:var(--font-mono);">Years in Tech</div>
-    </div>
-    <div class="card" style="padding:1.5rem; text-align:center;">
-      <div style="font-size:2.5rem; font-weight:800; color:var(--purple); font-family:var(--font-mono);" class="stat-num" data-target="6">0</div>
-      <div style="font-size:0.8rem; color:var(--text-dim); margin-top:0.3rem; font-family:var(--font-mono);">Experience Roles</div>
-    </div>
-  </div>
-</section>
+{% include "_intro.html" %}
 
-<!-- ── SKILLS ─────────────────────────────────────────────────────────────── -->
-<section data-aos="fade-up">
-  <div class="terminal-label" style="margin-bottom:1.5rem;">skills --list</div>
-  <h2 class="section-title" style="margin-bottom:2.5rem;">Core <span class="accent">Arsenal</span></h2>
+{% endblock %}
 
-  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem;">
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/intro.js') }}?v=20260930c"></script>
+{% if chat_enabled %}
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var form = document.getElementById('chatForm');
+  var input = document.getElementById('chatInput');
+  var log = document.getElementById('chatLog');
+  var suggest = document.getElementById('chatSuggest');
 
-    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="0">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-        <i class="fas fa-bug" style="color:var(--red); font-size:1.2rem;"></i>
-        <span style="font-weight:700; color:#fff;">Penetration Testing</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:6px;">
-        <span class="tag">Nmap</span><span class="tag">Metasploit</span><span class="tag">Burp Suite</span><span class="tag">SQLmap</span><span class="tag">Nikto</span>
-      </div>
-    </div>
-
-    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="100">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-        <i class="fas fa-magnifying-glass" style="color:var(--yellow); font-size:1.2rem;"></i>
-        <span style="font-weight:700; color:#fff;">Digital Forensics</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:6px;">
-        <span class="tag">Autopsy</span><span class="tag">FTK Imager</span><span class="tag">Wireshark</span><span class="tag">Volatility</span>
-      </div>
-    </div>
-
-    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="200">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-        <i class="fas fa-network-wired" style="color:var(--cyan); font-size:1.2rem;"></i>
-        <span style="font-weight:700; color:#fff;">Network Security</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:6px;">
-        <span class="tag">Firewall Config</span><span class="tag">IDS/IPS</span><span class="tag">VPN</span><span class="tag">VLAN</span><span class="tag">OpenVAS</span>
-      </div>
-    </div>
-
-    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="300">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-        <i class="fab fa-python" style="color:var(--green); font-size:1.2rem;"></i>
-        <span style="font-weight:700; color:#fff;">Security Scripting</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:6px;">
-        <span class="tag">Python</span><span class="tag">Bash</span><span class="tag">Flask</span><span class="tag">SQL</span><span class="tag">Linux</span>
-      </div>
-    </div>
-
-    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="400">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-        <i class="fas fa-chart-area" style="color:var(--purple); font-size:1.2rem;"></i>
-        <span style="font-weight:700; color:#fff;">SIEM & Monitoring</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:6px;">
-        <span class="tag">Splunk</span><span class="tag">Chronicle</span><span class="tag">IDS</span><span class="tag">Log Analysis</span>
-      </div>
-    </div>
-
-    <div class="card" style="padding:1.5rem;" data-aos="fade-up" data-aos-delay="500">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1rem;">
-        <i class="fas fa-fire-flame-curved" style="color:var(--red); font-size:1.2rem;"></i>
-        <span style="font-weight:700; color:#fff;">Incident Response</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:6px;">
-        <span class="tag">Threat Modelling</span><span class="tag">Containment</span><span class="tag">Root Cause</span><span class="tag">Reporting</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ── FEATURED PROJECT ───────────────────────────────────────────────────── -->
-<section data-aos="fade-up">
-  <div class="terminal-label" style="margin-bottom:1.5rem;">ls ./featured-projects/</div>
-  <h2 class="section-title" style="margin-bottom:2.5rem;">Featured <span class="accent">Project</span></h2>
-
-  <div class="card" style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; padding:2rem; align-items:center; border-color:rgba(0,255,136,0.3);">
-    <div>
-      <img src="/static/images/wsmd3.png" alt="Python Website Monitoring Tool"
-           style="border-radius:6px; border:1px solid var(--border); width:100%;"/>
-    </div>
-    <div>
-      <div class="terminal-label">Python Automation</div>
-      <h3 style="font-size:1.5rem; color:#fff; margin-bottom:0.75rem;">Website Monitoring &amp; Forensics Tool</h3>
-      <p style="color:var(--text-dim); line-height:1.7; margin-bottom:1.5rem;">
-        A custom Python application that monitors website uptime, logs anomalies with timestamps,
-        and generates forensic-grade incident reports. Detects suspicious HTTP patterns and triggers alerts.
-      </p>
-      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:1.5rem;">
-        <span class="tag">Python</span>
-        <span class="tag">HTTP Monitoring</span>
-        <span class="tag">Alerting</span>
-        <span class="tag">Forensic Logs</span>
-      </div>
-      <a href="{{ url_for('projects') }}" class="btn-primary">
-        <i class="fas fa-arrow-right"></i> View All Projects
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ── CASE STUDIES ───────────────────────────────────────────────────────── -->
-<section data-aos="fade-up">
-  <div class="terminal-label" style="margin-bottom:1.5rem;">./case-studies --summary</div>
-  <h2 class="section-title" style="margin-bottom:2.5rem;">Case <span class="accent">Studies</span></h2>
-
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
-    <div class="card" style="padding:1.75rem;" data-aos="fade-up" data-aos-delay="0">
-      <i class="fas fa-fish-fins" style="color:var(--red); font-size:1.4rem; margin-bottom:1rem;"></i>
-      <h3 style="color:#fff; margin-bottom:0.5rem;">Securing the Access Grid</h3>
-      <p style="color:var(--text-dim); font-size:0.9rem; line-height:1.7;">
-        Led simulated incident response for an advanced phishing campaign. Implemented containment,
-        secure email gateways, and user-awareness training at Cybershield Corp.
-      </p>
-      <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:6px;">
-        <span class="tag">Phishing</span><span class="tag">IR</span><span class="tag">Email Security</span>
-      </div>
-    </div>
-
-    <div class="card" style="padding:1.75rem;" data-aos="fade-up" data-aos-delay="100">
-      <i class="fas fa-network-wired" style="color:var(--cyan); font-size:1.4rem; margin-bottom:1rem;"></i>
-      <h3 style="color:#fff; margin-bottom:0.5rem;">Network Design — Kafitech</h3>
-      <p style="color:var(--text-dim); font-size:0.9rem; line-height:1.7;">
-        Designed secure network infrastructure with VLAN segmentation, ACLs, IDS/IPS rules,
-        and firewall policies for a growing technology company.
-      </p>
-      <div style="margin-top:1rem; display:flex; flex-wrap:wrap; gap:6px;">
-        <span class="tag">VLAN</span><span class="tag">ACL</span><span class="tag">Firewall</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CTA ────────────────────────────────────────────────────────────────── -->
-<section style="text-align:center; padding:4rem 0;" data-aos="zoom-in">
-  <div class="card" style="padding:3rem; max-width:600px; margin:0 auto; border-color:rgba(0,255,136,0.25);">
-    <div style="font-size:2.5rem; margin-bottom:1rem;">🛡️</div>
-    <h2 style="font-size:1.8rem; color:#fff; margin-bottom:0.75rem;">Let's Secure Your Digital Space</h2>
-    <p style="color:var(--text-dim); margin-bottom:2rem; line-height:1.7;">
-      Looking for a cybersecurity specialist with hands-on experience in threat detection, forensics,
-      and secure system design? Let's talk.
-    </p>
-    <a href="{{ url_for('contact') }}" class="btn-primary">
-      <i class="fas fa-terminal"></i> Initiate Contact
-    </a>
-  </div>
-</section>
-
-<style>
-  @media (max-width:768px) {
-    .hero-grid { grid-template-columns:1fr !important; }
-    .feat-grid { grid-template-columns:1fr !important; }
-    div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns:1fr !important; }
+  function add(text, cls) {
+    var el = document.createElement('div');
+    el.className = 'msg ' + cls;
+    el.textContent = text;
+    log.appendChild(el);
+    log.scrollTop = log.scrollHeight;
+    return el;
   }
-</style>
 
-<script>
-// ── Typing effect ──────────────────────────────────────────────────────────
-const roles = [
-  "Cybersecurity Specialist",
-  "Digital Forensics Analyst",
-  "Penetration Tester",
-  "Python Security Developer",
-  "Incident Response Engineer"
-];
-
-let ri = 0, ci = 0, deleting = false;
-const el = document.getElementById('role-text');
-
-function type(){
-  const word = roles[ri];
-  if (!deleting){
-    el.textContent = word.slice(0, ++ci);
-    if (ci === word.length){ deleting = true; return setTimeout(type, 1800); }
-  } else {
-    el.textContent = word.slice(0, --ci);
-    if (ci === 0){ deleting = false; ri = (ri+1) % roles.length; }
+  async function ask(q) {
+    add(q, 'user');
+    if (suggest) { suggest.remove(); suggest = null; }
+    var pending = add('Typing…', 'bot typing');
+    try {
+      var res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ message: q })
+      });
+      var data = await res.json();
+      pending.remove();
+      add(data.reply || 'Sorry, I could not answer that. Please email Timothyv952@gmail.com.', 'bot');
+    } catch (e) {
+      pending.remove();
+      add('Connection problem. Please try again.', 'bot error');
+    }
   }
-  setTimeout(type, deleting ? 50 : 80);
-}
-type();
 
-// ── Counter animation ─────────────────────────────────────────────────────
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const el = e.target;
-    const target = +el.dataset.target;
-    let n = 0;
-    const step = Math.ceil(target / 40);
-    const timer = setInterval(() => {
-      n = Math.min(n + step, target);
-      el.textContent = n;
-      if (n >= target) clearInterval(timer);
-    }, 40);
-    observer.unobserve(el);
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = input.value.trim();
+    if (!q) return;
+    input.value = '';
+    ask(q);
   });
-}, { threshold: 0.5 });
 
-document.querySelectorAll('.stat-num').forEach(el => observer.observe(el));
-</script>
-
-{# ── AI Mini Chat Widget ──────────────────────────────────────────────────── #}
-<section style="padding:4rem 0;">
-  <div style="max-width:680px;margin:0 auto;padding:0 1.5rem;">
-    <div class="terminal-label" style="margin-bottom:1rem;">./ask-timothy --ai</div>
-    <div style="background:#0d1117;border:1px solid #00ff8833;border-radius:12px;overflow:hidden;box-shadow:0 0 30px #00ff8811;">
-      <!-- Chat header -->
-      <div style="background:#161b22;padding:0.75rem 1.25rem;border-bottom:1px solid #00ff8822;display:flex;align-items:center;gap:0.75rem;">
-        <div style="width:10px;height:10px;background:#00ff88;border-radius:50%;box-shadow:0 0 8px #00ff88;animation:pulse 2s infinite;"></div>
-        <span style="color:#00ff88;font-size:0.8rem;font-family:'Share Tech Mono',monospace;">AI Assistant — Online</span>
-        <span style="color:#555;font-size:0.75rem;margin-left:auto;">Ask me anything about Timothy</span>
-      </div>
-      <!-- Messages area -->
-      <div id="chat-messages" style="height:280px;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:0.85rem;">
-        <div class="chat-msg bot" style="display:flex;gap:0.6rem;align-items:flex-start;">
-          <span style="color:#00ff88;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[AI]$</span>
-          <span style="color:#c9d1d9;font-size:0.875rem;line-height:1.6;">Hey! I'm Timothy's portfolio assistant. Ask me about his skills, projects, certifications, or experience.</span>
-        </div>
-      </div>
-      <!-- Input area -->
-      <div style="border-top:1px solid #00ff8822;padding:0.85rem 1.25rem;display:flex;gap:0.75rem;align-items:center;background:#0d1117;">
-        <span style="color:#00ff88;font-size:0.8rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;">visitor@portfolio:~$</span>
-        <input id="chat-input" type="text" placeholder="Type your question..." maxlength="300"
-          style="flex:1;background:transparent;border:none;outline:none;color:#e6edf3;font-family:'Share Tech Mono',monospace;font-size:0.85rem;caret-color:#00ff88;"
-          onkeydown="if(event.key==='Enter')sendChat()">
-        <button onclick="sendChat()" style="background:#00ff8820;border:1px solid #00ff8844;color:#00ff88;padding:0.35rem 0.85rem;border-radius:6px;cursor:pointer;font-size:0.8rem;font-family:'Share Tech Mono',monospace;transition:all 0.2s;" onmouseover="this.style.background='#00ff8840'" onmouseout="this.style.background='#00ff8820'">Send</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-async function sendChat() {
-  const input = document.getElementById('chat-input');
-  const box   = document.getElementById('chat-messages');
-  const msg   = input.value.trim();
-  if (!msg) return;
-
-  // Add user message
-  box.innerHTML += `
-    <div style="display:flex;gap:0.6rem;align-items:flex-start;justify-content:flex-end;">
-      <span style="color:#c9d1d9;font-size:0.875rem;line-height:1.6;background:#21262d;padding:0.4rem 0.85rem;border-radius:8px;max-width:80%;">${msg.replace(/</g,'&lt;')}</span>
-      <span style="color:#bd93f9;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[you]</span>
-    </div>`;
-  input.value = '';
-  box.scrollTop = box.scrollHeight;
-
-  // Typing indicator
-  const typingId = 'typing-' + Date.now();
-  box.innerHTML += `
-    <div id="${typingId}" style="display:flex;gap:0.6rem;align-items:flex-start;">
-      <span style="color:#00ff88;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[AI]$</span>
-      <span style="color:#555;font-size:0.875rem;">thinking...</span>
-    </div>`;
-  box.scrollTop = box.scrollHeight;
-
-  try {
-    const res  = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({message: msg})
+  if (suggest) {
+    suggest.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { ask(b.textContent); });
     });
-    const data = await res.json();
-    document.getElementById(typingId).remove();
-    box.innerHTML += `
-      <div style="display:flex;gap:0.6rem;align-items:flex-start;">
-        <span style="color:#00ff88;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[AI]$</span>
-        <span style="color:#c9d1d9;font-size:0.875rem;line-height:1.6;">${(data.reply||'').replace(/</g,'&lt;')}</span>
-      </div>`;
-  } catch(e) {
-    document.getElementById(typingId).remove();
-    box.innerHTML += `
-      <div style="display:flex;gap:0.6rem;align-items:flex-start;">
-        <span style="color:#00ff88;font-size:0.75rem;font-family:'Share Tech Mono',monospace;white-space:nowrap;padding-top:2px;">[AI]$</span>
-        <span style="color:#ff5555;font-size:0.875rem;">Connection error. Try again.</span>
-      </div>`;
   }
-  box.scrollTop = box.scrollHeight;
-}
+})();
 </script>
-
+{% endif %}
 {% endblock %}

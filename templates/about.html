@@ -1,267 +1,102 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon %}
 {% block content %}
 
-<section style="padding-top:4rem;">
-  <div class="terminal-label" style="margin-bottom:1.5rem;">cat about.md</div>
-
-  <div style="display:grid; grid-template-columns:2fr 1fr; gap:3rem; align-items:start;">
-
-    <!-- Left: Bio -->
-    <div data-aos="fade-right">
-      <h1 style="font-size:clamp(1.8rem,4vw,3rem); font-weight:800; color:#fff; margin-bottom:1rem;">
-        Your Ideal <span style="color:var(--green);">Cybersecurity</span> Specialist
-      </h1>
-      <blockquote style="border-left:3px solid var(--green); padding-left:1rem; color:var(--text-dim); font-style:italic; margin-bottom:2rem;">
-        "Code with purpose. Secure with passion."
-      </blockquote>
-
-      <p style="color:var(--text-dim); line-height:1.9; margin-bottom:1.25rem;">
-        I'm a cybersecurity enthusiast and Python developer with a passion for building secure,
-        performant, and resilient digital systems. My journey in tech, which started with a keen
-        interest in problem-solving, has grown into a career focused on delivering robust solutions
-        through code and defensive security practices.
-      </p>
-      <p style="color:var(--text-dim); line-height:1.9; margin-bottom:2rem;">
-        I thrive in collaborative environments, working with innovative minds to tackle complex
-        security challenges and automate processes. My approach combines clean code, user-centric
-        security, and a relentless drive for continuous improvement. Every system I touch is left
-        more resilient than I found it.
-      </p>
-
-      <!-- Skills cloud -->
-      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:2rem;">
-        <span class="tag">Python</span>
-        <span class="tag">Flask</span>
-        <span class="tag">Cybersecurity</span>
-        <span class="tag">Network Security</span>
-        <span class="tag">Vulnerability Analysis</span>
-        <span class="tag">Digital Forensics</span>
-        <span class="tag">SQL</span>
-        <span class="tag">Linux</span>
-        <span class="tag">Bash</span>
-        <span class="tag">Git</span>
-        <span class="tag">SIEM</span>
-        <span class="tag">Wireshark</span>
-        <span class="tag">OpenVAS</span>
-        <span class="tag">Burp Suite</span>
-        <span class="tag">Metasploit</span>
-        <span class="tag">Nmap</span>
-      </div>
-
-      <a href="/resume" target="_blank" rel="noopener noreferrer" class="btn-primary">
-        <i class="fas fa-file-shield"></i> Download Full CV
-      </a>
-    </div>
-
-    <!-- Right: Quick facts + socials -->
-    <div data-aos="fade-left">
-      <div class="card" style="padding:1.75rem; margin-bottom:1rem;">
-        <div class="terminal-label" style="margin-bottom:1rem;">quick_facts.json</div>
-        <div style="font-family:var(--font-mono); font-size:0.78rem; line-height:2; color:var(--text-dim);">
-          <div><span style="color:var(--yellow);">"degree"</span>: <span style="color:var(--green);">"B.Eng Marine Eng"</span></div>
-          <div><span style="color:var(--yellow);">"grade"</span>: <span style="color:var(--green);">"First Class Honours"</span></div>
-          <div><span style="color:var(--yellow);">"location"</span>: <span style="color:var(--green);">"Lagos, Nigeria"</span></div>
-          <div><span style="color:var(--yellow);">"languages"</span>: <span style="color:var(--purple);">["Python","Bash","SQL","C"]</span></div>
-          <div><span style="color:var(--yellow);">"os"</span>: <span style="color:var(--green);">"Linux/Windows"</span></div>
-          <div><span style="color:var(--yellow);">"status"</span>: <span style="color:#00ff88; animation:pulse 2s infinite;">"open_to_opportunities"</span></div>
-        </div>
-      </div>
-
-      <div class="card" style="padding:1.75rem;">
-        <div class="terminal-label" style="margin-bottom:1rem;">connect --socials</div>
-        <div style="display:flex; flex-direction:column; gap:0.75rem; font-family:var(--font-mono); font-size:0.8rem;">
-          <a href="{{ socials.github }}" target="_blank" rel="noopener noreferrer"
-             style="display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none;"
-             onmouseover="this.style.color='var(--green)'" onmouseout="this.style.color='var(--text)'">
-            <i class="fab fa-github" style="width:18px;"></i> github.com/Osvic1
-          </a>
-          <a href="{{ socials.linkedin }}" target="_blank" rel="noopener noreferrer"
-             style="display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none;"
-             onmouseover="this.style.color='var(--cyan)'" onmouseout="this.style.color='var(--text)'">
-            <i class="fab fa-linkedin" style="width:18px;"></i> Timothy Victor
-          </a>
-          <a href="{{ socials.email }}"
-             style="display:flex; align-items:center; gap:10px; color:var(--text); text-decoration:none;"
-             onmouseover="this.style.color='var(--yellow)'" onmouseout="this.style.color='var(--text)'">
-            <i class="fas fa-envelope" style="width:18px;"></i> Timothyv952@gmail.com
-          </a>
-        </div>
-      </div>
-    </div>
-
+<section class="hero" style="padding-bottom:48px;">
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="eyebrow reveal" style="margin-bottom:24px;">About</div>
+    <h1 class="h1 reveal" style="--d:80ms; max-width:16ch;">An engineer who likes to know how things <em>fail</em>.</h1>
   </div>
 </section>
 
-<!-- ── Interactive CLI Widget ──────────────────────────────────────────────── -->
-<section style="padding:4rem 0 2rem;">
-  <div class="terminal-label" style="margin-bottom:1.5rem;">./security-profile.sh</div>
-
-  <div style="background:#0d1117; border:1px solid #00ff8833; border-radius:12px; overflow:hidden; box-shadow:0 0 40px #00ff8811; max-width:780px;">
-
-    <!-- Window chrome -->
-    <div style="background:#161b22; padding:0.75rem 1.25rem; border-bottom:1px solid #00ff8822; display:flex; align-items:center; gap:0.6rem;">
-      <div style="width:12px;height:12px;border-radius:50%;background:#ff5f57;"></div>
-      <div style="width:12px;height:12px;border-radius:50%;background:#febc2e;"></div>
-      <div style="width:12px;height:12px;border-radius:50%;background:#28c840;"></div>
-      <span style="color:#555; font-size:0.78rem; font-family:var(--font-mono); margin-left:0.75rem;">security-profile.sh — bash</span>
+<section class="section" style="padding-top:24px;">
+  <div class="container split split-wide">
+    <div class="prose reveal">
+      <p>
+        I trained as a marine engineer and graduated with <strong>First Class Honours</strong> from Nigeria
+        Maritime University. Engine rooms teach you to respect failure modes: you learn how a system breaks
+        before you trust it to run. I brought that habit into software.
+      </p>
+      <p>
+        Today I work across three areas. As a <strong>security engineer</strong>, I lead authorised API
+        penetration tests against the OWASP API Security Top 10 and write reports that engineers can act on.
+        In <strong>AI research</strong>, I fine-tune and evaluate open-weight language models. As an
+        <strong>AI full-stack engineer</strong>, I build and deploy the platforms around them, from the
+        FastAPI back end to the React front end and the cloud it runs on.
+      </p>
+      <p>
+        The three feed each other. Building products makes me a sharper tester, and testing other people's
+        systems makes what I build harder to break.
+      </p>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:32px;">
+        <a href="{{ url_for('resume') }}" class="btn btn-primary" target="_blank" rel="noopener">{{ icon("download", 17) }} Résumé</a>
+        <a href="{{ url_for('contact') }}" class="btn btn-ghost">Get in touch {{ icon("arrow-right", 17) }}</a>
+      </div>
     </div>
 
-    <!-- Output area -->
-    <div id="cli-output" style="padding:1.5rem; font-family:var(--font-mono); font-size:0.82rem; line-height:1.9; min-height:260px; max-height:420px; overflow-y:auto;">
-      <div style="color:#555;">$ ./security-profile.sh</div>
-      <div style="color:var(--green); margin:0.5rem 0;">Initialising security profile... <span style="color:#fff;">OK</span></div>
-      <div style="color:var(--text-dim); margin-bottom:1rem;">Type a command below. Try: <span style="color:var(--cyan);">help</span></div>
-    </div>
-
-    <!-- Input area -->
-    <div style="border-top:1px solid #00ff8822; padding:0.85rem 1.25rem; display:flex; align-items:center; gap:0.75rem; background:#0a0f14;">
-      <span style="color:var(--green); font-family:var(--font-mono); font-size:0.82rem; white-space:nowrap;">timothy@portfolio:~$</span>
-      <input id="cli-input" type="text" placeholder="type a command..." autocomplete="off" spellcheck="false"
-        style="flex:1; background:transparent; border:none; outline:none; color:#e6edf3; font-family:var(--font-mono); font-size:0.82rem; caret-color:var(--green);"
-        onkeydown="if(event.key==='Enter') runCmd()">
-      <button onclick="runCmd()" style="background:#00ff8820; border:1px solid #00ff8844; color:var(--green); padding:0.3rem 0.75rem; border-radius:6px; cursor:pointer; font-family:var(--font-mono); font-size:0.78rem;" onmouseover="this.style.background='#00ff8840'" onmouseout="this.style.background='#00ff8820'">Run</button>
-    </div>
-  </div>
-
-  <!-- Quick command buttons -->
-  <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:1rem; max-width:780px;">
-    <span style="color:#555; font-size:0.78rem; font-family:var(--font-mono); padding-top:4px;">quick cmds:</span>
-    {% for cmd in ['help','whoami','skills','certs','projects','tools','contact','status','clear'] %}
-    <button onclick="quickCmd('{{cmd}}')"
-      style="background:#161b22; border:1px solid #30363d; color:var(--cyan); padding:0.25rem 0.7rem; border-radius:6px; cursor:pointer; font-family:var(--font-mono); font-size:0.75rem; transition:all 0.2s;"
-      onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='#30363d'">{{cmd}}</button>
-    {% endfor %}
+    <aside class="card reveal" style="--d:80ms; padding:28px;">
+      <div class="eyebrow" style="margin-bottom:8px;">At a glance</div>
+      <dl class="facts">
+        <div><dt>Based in</dt><dd>Lagos, Nigeria</dd></div>
+        <div><dt>Time zone</dt><dd>WAT (UTC+1)</dd></div>
+        <div><dt>Focus</dt><dd>API security, LLMs, full-stack</dd></div>
+        <div><dt>Degree</dt><dd>B.Eng., First Class</dd></div>
+        <div><dt>Work style</dt><dd>Remote, hybrid or on-site</dd></div>
+        <div style="border-bottom:0;"><dt>Status</dt><dd style="display:inline-flex; align-items:center; gap:8px;"><span class="dot"></span> Open to roles</dd></div>
+      </dl>
+      <div style="display:flex; gap:8px; margin-top:20px;">
+        <a class="icon-btn" href="{{ socials.github }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{{ icon("github", 17) }}</a>
+        <a class="icon-btn" href="{{ socials.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">{{ icon("linkedin", 17) }}</a>
+        <a class="icon-btn" href="{{ socials.email }}" aria-label="Email">{{ icon("mail", 17) }}</a>
+      </div>
+    </aside>
   </div>
 </section>
 
-<style>
-  @media (max-width: 768px) {
-    div[style*="grid-template-columns:2fr 1fr"] { grid-template-columns: 1fr !important; }
-  }
-  #cli-output::-webkit-scrollbar { width: 4px; }
-  #cli-output::-webkit-scrollbar-track { background: transparent; }
-  #cli-output::-webkit-scrollbar-thumb { background: #00ff8833; border-radius: 4px; }
-</style>
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" style="margin-bottom:18px;">How I work</div>
+        <h2 class="h2">Three <em>principles</em>.</h2>
+      </div>
+    </div>
+    <div class="principles">
+      <article class="card principle reveal">
+        <span class="mono">01</span>
+        <h3 class="h3">Evidence over opinion</h3>
+        <p>Every finding is reproducible and scored. Every claim about a model is backed by an evaluation.</p>
+      </article>
+      <article class="card principle reveal" style="--d:80ms;">
+        <span class="mono">02</span>
+        <h3 class="h3">Root causes, not symptoms</h3>
+        <p>Twenty findings with one cause deserve one fix. I look for the shared cause so teams fix less and fix it properly.</p>
+      </article>
+      <article class="card principle reveal" style="--d:160ms;">
+        <span class="mono">03</span>
+        <h3 class="h3">Discretion by default</h3>
+        <p>Client systems, data and findings stay confidential. I share outcomes, never details.</p>
+      </article>
+    </div>
+  </div>
+</section>
 
-<script>
-const COMMANDS = {
-  help: () => `
-<div style="color:var(--green); margin-bottom:0.5rem;">Available commands:</div>
-<div style="color:var(--cyan);">  whoami    </div><span style="color:var(--text-dim);">— Who is Timothy?</span>
-<div style="color:var(--cyan);">  skills    </div><span style="color:var(--text-dim);">— Technical skills</span>
-<div style="color:var(--cyan);">  certs     </div><span style="color:var(--text-dim);">— Certifications</span>
-<div style="color:var(--cyan);">  projects  </div><span style="color:var(--text-dim);">— Project list</span>
-<div style="color:var(--cyan);">  tools     </div><span style="color:var(--text-dim);">— Security tools</span>
-<div style="color:var(--cyan);">  contact   </div><span style="color:var(--text-dim);">— Contact info</span>
-<div style="color:var(--cyan);">  status    </div><span style="color:var(--text-dim);">— Availability</span>
-<div style="color:var(--cyan);">  clear     </div><span style="color:var(--text-dim);">— Clear terminal</span>`,
-
-  whoami: () => `
-<span style="color:var(--yellow);">{</span>
-  <span style="color:var(--purple);">"name"</span>: <span style="color:var(--green);">"Timothy Victor Osas"</span>,
-  <span style="color:var(--purple);">"role"</span>: <span style="color:var(--green);">"Cybersecurity Specialist"</span>,
-  <span style="color:var(--purple);">"degree"</span>: <span style="color:var(--green);">"B.Eng Marine Engineering — First Class Honours"</span>,
-  <span style="color:var(--purple);">"university"</span>: <span style="color:var(--green);">"Nigeria Maritime University (2019–2024)"</span>,
-  <span style="color:var(--purple);">"location"</span>: <span style="color:var(--green);">"Lagos, Nigeria"</span>,
-  <span style="color:var(--purple);">"focus"</span>: <span style="color:var(--green);">"Offensive & Defensive Security, Python Automation"</span>
-<span style="color:var(--yellow);">}</span>`,
-
-  skills: () => `
-<span style="color:var(--yellow);">{</span>
-  <span style="color:var(--purple);">"offensive"</span>: <span style="color:var(--cyan);">["Penetration Testing", "Vulnerability Assessment", "Phishing Simulation"]</span>,
-  <span style="color:var(--purple);">"defensive"</span>: <span style="color:var(--cyan);">["Incident Response", "Digital Forensics", "SIEM", "IDS/IPS"]</span>,
-  <span style="color:var(--purple);">"network"</span>: <span style="color:var(--cyan);">["Firewall Config", "VPN", "Network Monitoring", "Wireshark"]</span>,
-  <span style="color:var(--purple);">"dev"</span>: <span style="color:var(--cyan);">["Python", "Flask", "Bash", "SQL", "C", "Linux"]</span>
-<span style="color:var(--yellow);">}</span>`,
-
-  certs: () => `
-<span style="color:var(--yellow);">"certs"</span>: [
-  <span style="color:var(--green);">✔</span> <span style="color:#fff;">"Google Professional Cybersecurity Certificate"</span>,
-  <span style="color:var(--green);">✔</span> <span style="color:#fff;">"3MTT Nigeria Cybersecurity"</span>,
-  <span style="color:var(--green);">✔</span> <span style="color:#fff;">"Cyber Secured India — Digital Forensics"</span>,
-  <span style="color:var(--green);">✔</span> <span style="color:#fff;">"TECH4DEV Cybersecurity Course"</span>
-]`,
-
-  projects: () => `
-<span style="color:var(--yellow);">"projects"</span>: [
-  <span style="color:var(--cyan);">[01]</span> Securing the Access Grid — Phishing IR Simulation
-  <span style="color:var(--cyan);">[02]</span> Network Security Design — Kafitech
-  <span style="color:var(--cyan);">[03]</span> Website Monitoring Tool (Python)
-  <span style="color:var(--cyan);">[04]</span> Host-Based Firewall Configuration
-  <span style="color:var(--cyan);">[05]</span> Vulnerability Scan Using OpenVAS
-  <span style="color:var(--cyan);">[06]</span> Phishing Email Analyzer
-  <span style="color:var(--cyan);">[07]</span> Password Strength Auditor (Python)
-  <span style="color:var(--cyan);">[08]</span> SOC Alert Triage Simulation
-  <span style="color:var(--cyan);">[09]</span> Linux Hardening Checklist
-<span style="color:var(--text-dim);">→ Visit /projects for full details</span>`,
-
-  tools: () => `
-<span style="color:var(--yellow);">"tools"</span>: [
-  <span style="color:var(--green);">Wireshark</span>   — Network packet analysis
-  <span style="color:var(--green);">Nmap</span>        — Network discovery & port scanning
-  <span style="color:var(--green);">Burp Suite</span>  — Web vulnerability testing
-  <span style="color:var(--green);">Metasploit</span>  — Penetration testing framework
-  <span style="color:var(--green);">OpenVAS</span>     — Vulnerability scanner
-  <span style="color:var(--green);">Nessus</span>      — Enterprise vulnerability management
-  <span style="color:var(--green);">Splunk</span>      — SIEM & log analysis
-  <span style="color:var(--green);">Kali Linux</span>  — Security-focused OS
-]`,
-
-  contact: () => `
-<span style="color:var(--yellow);">"contact"</span>: {
-  <span style="color:var(--purple);">"email"</span>    : <a href="mailto:Timothyv952@gmail.com" style="color:var(--green);">Timothyv952@gmail.com</a>,
-  <span style="color:var(--purple);">"github"</span>   : <a href="https://github.com/Osvic1" target="_blank" style="color:var(--green);">github.com/Osvic1</a>,
-  <span style="color:var(--purple);">"linkedin"</span> : <a href="https://www.linkedin.com/in/timothy-victor-a61421223/" target="_blank" style="color:var(--green);">linkedin.com/in/timothy-victor</a>
-}`,
-
-  status: () => `
-<span style="color:var(--green);">●</span> <span style="color:#fff;">Status:</span> <span style="color:var(--green); font-weight:bold;">OPEN TO OPPORTUNITIES</span>
-<span style="color:var(--text-dim);">  Available for: Full-time · Remote · Contract</span>
-<span style="color:var(--text-dim);">  Roles: SOC Analyst · Pen Tester · Security Engineer</span>
-<span style="color:var(--text-dim);">  Response time: &lt; 24 hours</span>`,
-
-  clear: () => null,
-};
-
-const out = document.getElementById('cli-output');
-const inp = document.getElementById('cli-input');
-let history = [], hIdx = -1;
-
-function addLine(html) {
-  const div = document.createElement('div');
-  div.innerHTML = html;
-  out.appendChild(div);
-  out.scrollTop = out.scrollHeight;
-}
-
-function runCmd() {
-  const raw = inp.value.trim().toLowerCase();
-  if (!raw) return;
-  history.unshift(raw); hIdx = -1;
-
-  addLine(`<span style="color:var(--green);">timothy@portfolio:~$</span> <span style="color:#fff;">${raw}</span>`);
-
-  if (raw === 'clear') {
-    out.innerHTML = '<div style="color:var(--green);">Terminal cleared.</div>';
-  } else if (COMMANDS[raw]) {
-    addLine(COMMANDS[raw]());
-  } else {
-    addLine(`<span style="color:#ff5555;">command not found: ${raw}</span> — type <span style="color:var(--cyan);">help</span> for available commands`);
-  }
-  inp.value = '';
-}
-
-function quickCmd(cmd) {
-  inp.value = cmd;
-  inp.focus();
-  runCmd();
-}
-
-// Arrow key history
-inp.addEventListener('keydown', e => {
-  if (e.key === 'ArrowUp') { hIdx = Math.min(hIdx+1, history.length-1); inp.value = history[hIdx]||''; }
-  if (e.key === 'ArrowDown') { hIdx = Math.max(hIdx-1, -1); inp.value = hIdx < 0 ? '' : history[hIdx]; }
-});
-</script>
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow" style="margin-bottom:18px;">Toolkit</div>
+        <h2 class="h2">What I work <em>with</em>.</h2>
+      </div>
+    </div>
+    <div class="toolkit">
+      <div class="card reveal"><h4>Security testing</h4><div class="chips"><span class="chip">OWASP API Top 10</span><span class="chip">PTES</span><span class="chip">CVSS v3.1</span><span class="chip">Postman</span><span class="chip">Burp Suite</span><span class="chip">Nmap</span><span class="chip">Wireshark</span><span class="chip">OpenVAS</span></div></div>
+      <div class="card reveal" style="--d:60ms;"><h4>AI &amp; LLMs</h4><div class="chips"><span class="chip">Unsloth</span><span class="chip">LoRA / QLoRA</span><span class="chip">Hugging Face</span><span class="chip">Model evaluation</span><span class="chip">MCP</span><span class="chip">Vast.ai GPUs</span></div></div>
+      <div class="card reveal" style="--d:120ms;"><h4>Engineering</h4><div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">Flask</span><span class="chip">React</span><span class="chip">MongoDB</span><span class="chip">SQL</span><span class="chip">Bash</span></div></div>
+      <div class="card reveal" style="--d:180ms;"><h4>Cloud &amp; delivery</h4><div class="chips"><span class="chip">Azure</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">Linux</span><span class="chip">Git</span></div></div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

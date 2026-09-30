@@ -1,15 +1,16 @@
 {% extends "base.html" %}
+{% from "_icons.html" import icon %}
 {% block content %}
-<section style="text-align:center; padding:6rem 0;">
-  <div class="card" style="max-width:500px; margin:0 auto; padding:3rem;">
-    <div style="font-family:var(--font-mono); font-size:4rem; color:var(--red); margin-bottom:1rem;">{{ title.split('–')[0] | trim }}</div>
-    <h1 style="color:#fff; margin-bottom:0.75rem;">{{ title }}</h1>
-    <p style="color:var(--text-dim); margin-bottom:2rem; font-family:var(--font-mono); font-size:0.85rem;">
-      Access denied or page not found. Return to a known safe state.
-    </p>
-    <a href="{{ url_for('home') }}" class="btn-primary">
-      <i class="fas fa-terminal"></i> Return Home
-    </a>
+<section class="hero">
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="error-code">{{ title.split('–')[0] | trim }}</div>
+    <h1 class="h2" style="margin-top:16px;">{{ title.split('–')[1] | trim if '–' in title else title }}</h1>
+    <p class="lead" style="margin-top:16px;">This page doesn't exist or isn't available. Let's get you back on track.</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('home') }}" class="btn btn-primary">Back to home {{ icon("arrow-right", 17) }}</a>
+      <a href="{{ url_for('projects') }}" class="btn btn-ghost">See my work</a>
+    </div>
   </div>
 </section>
 {% endblock %}
