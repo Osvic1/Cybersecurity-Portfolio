@@ -191,7 +191,7 @@ EDUCATION = [
 
 SOCIALS = {
     "github": "https://github.com/Osvic1",
-    "linkedin": "https://www.linkedin.com/in/timothy-victor-a61421223/",
+    "linkedin": "https://www.linkedin.com/in/victor-timothy-a61421223/",
     "email": "mailto:Timothyv952@gmail.com",
     "resume": "/static/resume/resume.pdf",
 }
@@ -603,7 +603,7 @@ def chat():
         "Earlier projects: Securing the Access Grid (phishing IR), Kafitech Network Security Design, Website Monitoring Tool, "
         "Host-Based Firewall Config, Vulnerability Scan with OpenVAS. "
         "Certifications: Google Professional Cybersecurity, Cyber Secured India, 3MTT Nigeria, TECH4DEV. "
-        "Contact: Timothyv952@gmail.com | GitHub: Osvic1 | LinkedIn: timothy-victor-a61421223. "
+        "Contact: Timothyv952@gmail.com | GitHub: Osvic1 | LinkedIn: victor-timothy-a61421223. "
         "Keep answers under 3 sentences. Be professional but engaging. If asked something unrelated to Timothy, "
         "politely redirect to his portfolio topics."
     )
