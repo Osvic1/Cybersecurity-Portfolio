@@ -117,7 +117,7 @@ EXPERIENCES = [
         "company": "CrowtherLabs-THCO",
         "url": "https://www.thcohq.com/",
         "role": "Security Engineer · AI Research (LLMs) · AI Full-Stack Engineer",
-        "period": "Aug 2026 — Present",
+        "period": "Jun 2026 — Present",
         "location": "Lagos, Nigeria · Hybrid · Full-time",
         "bullets": [
             "Develop and deploy an internal CRM and delivery platform (React, FastAPI, MongoDB, Azure, GitHub Actions).",
@@ -125,6 +125,19 @@ EXPERIENCES = [
             "Led several authorised penetration tests to the OWASP API Security Top 10 and PTES, delivering reports, findings trackers and remediation plans.",
         ],
         "skills": ["Python", "FastAPI", "React", "Azure", "Docker", "API Security", "OWASP"],
+    },
+    {
+        "company": "Funtay Group",
+        "role": "Conversion Engineer (CNG Systems)",
+        "period": "Sep 2024 — May 2026",
+        "location": "On-site",
+        "bullets": [
+            "Configured and calibrated CNG injection ECUs with AEB2001N interface software for each vehicle conversion.",
+            "Diagnosed and resolved faults in conversion systems using software diagnostics and live sensor data.",
+            "Led a team of technicians on vehicle conversions, setting procedures and checking quality before handover.",
+            "Ran safety and compliance checks and kept technical records for every conversion.",
+        ],
+        "skills": ["ECU Calibration", "AEB2001N", "Diagnostics", "CNG Systems", "Team Leadership"],
     },
     {
         "company": "3MTT Nigeria / Darey.io",
@@ -170,7 +183,7 @@ EDUCATION = [
         "program": "B.Eng. Marine Engineering (First Class Honours)",
         "period": "2019 — 2024",
         "notes": [
-            "Capstone: Ocean Thermal Energy Conversion (OTEC)",
+            "Project: Ocean Thermal Energy Conversion (OTEC)",
             "Relevant Courses: Cybersecurity, Python Programming",
         ],
     }
@@ -276,7 +289,7 @@ def get_projects():
             "featured": True,
             "summary": "One system for client relationships, delivery, recruitment and HR, in production on Azure.",
             "metric": ["140+", "commits shipped to production"],
-            "role": "Full-stack engineer · Aug 2026 to present",
+            "role": "Full-stack engineer · Jun 2026 to present",
             "description": "Internal platform at CrowtherLabs-THCO that brings client relationships, the project delivery pipeline, task boards, recruitment and HR into one system instead of spreadsheets, message threads and separate tools.",
             "highlights": [
                 "Built the recruitment workflow: CV parsing (PDF, DOCX, OCR), AI-assisted candidate sourcing and enrichment, and automatic de-duplication.",
@@ -580,7 +593,7 @@ def chat():
         "You are Timothy Victor Osas's portfolio assistant — sharp, concise and professional. "
         "Answer questions about Timothy: he is a Security Engineer, AI researcher (LLMs) and AI full-stack engineer, "
         "and a Marine Engineering graduate (First Class Honours, Nigeria Maritime University 2024). "
-        "Current role (Aug 2026 — present) at CrowtherLabs-THCO: he built AtomStudio, a hosted LLM fine-tuning platform "
+        "Current role (Jun 2026 — present) at CrowtherLabs-THCO: he built AtomStudio, a hosted LLM fine-tuning platform "
         "(FastAPI, React, Unsloth LoRA/QLoRA, GPUs rented on Vast.ai, Docker, MCP server) as sole developer; develops and "
         "deploys an internal CRM and delivery platform (React, FastAPI, MongoDB/Cosmos DB, Azure Container Apps, GitHub Actions); "
         "and has led several authorised penetration tests to OWASP standards; two recent API examples are an HR & payroll SaaS "
