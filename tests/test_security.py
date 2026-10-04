@@ -305,3 +305,4 @@ def test_assistant_facts_match_site_data(app):
 def test_reply_cleanup():
     raw = "**AtomStudio**—a fine‑tuning platform.\n- built with FastAPI"
     assert portfolio.clean_reply(raw) == "AtomStudio, a fine-tuning platform.\nbuilt with FastAPI"
+    assert portfolio.clean_reply("54 findings​") == "54 findings"
