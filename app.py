@@ -608,40 +608,54 @@ def chat():
         "politely redirect to his portfolio topics."
     )
 
-    api_key = os.environ.get("GROQ_API_KEY", "")
+    # Keys pasted into a hosting dashboard often pick up spaces or quotes.
+    api_key = os.environ.get("GROQ_API_KEY", "").strip().strip("\"'")
     if not api_key:
         return {"reply": CHAT_FALLBACK}, 503
 
-    payload = json.dumps({
-        "model": "llama-3.3-70b-versatile",
-        "messages": [
-            {"role": "system", "content": SYSTEM},
-            {"role": "user", "content": user_msg}
-        ],
-        "max_tokens": 300
-    }).encode()
-
-    req = urllib.request.Request(
-        "https://api.groq.com/openai/v1/chat/completions",
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-        },
-        method="POST"
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            result = json.loads(resp.read())
-            reply = result["choices"][0]["message"]["content"]
-            return {"reply": reply}
-    except urllib.error.HTTPError as e:
-        app.logger.error("Chat provider returned HTTP %s", e.code)
-        return {"reply": CHAT_FALLBACK}, 502
-    except Exception:
-        app.logger.exception("Chat request failed")
-        return {"reply": CHAT_FALLBACK}, 502
+    models = [os.environ.get("GROQ_MODEL", "").strip() or "llama-3.3-70b-versatile", "openai/gpt-oss-120b"]
+    for model in dict.fromkeys(models):
+        payload = json.dumps({
+            "model": model,
+            "messages": [
+                {"role": "system", "content": SYSTEM},
+                {"role": "user", "content": user_msg}
+            ],
+            "max_tokens": 300
+        }).encode()
+        req = urllib.request.Request(
+            "https://api.groq.com/openai/v1/chat/completions",
+            data=payload,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            },
+            method="POST"
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                result = json.loads(resp.read())
+                reply = (result["choices"][0]["message"].get("content") or "").strip()
+                if reply:
+                    return {"reply": reply}
+                app.logger.error("Chat provider returned an empty reply (model %s)", model)
+        except urllib.error.HTTPError as e:
+            # Log the provider's own error code and message; neither contains the key.
+            detail = ""
+            try:
+                err = json.loads(e.read() or b"{}").get("error", {})
+                detail = f"{err.get('code') or err.get('type')}: {str(err.get('message', ''))[:200]}"
+            except Exception:
+                pass
+            app.logger.error("Chat provider HTTP %s (model %s) %s", e.code, model, detail)
+            # Only a model-specific rejection is worth retrying with the backup model.
+            if e.code not in (400, 404):
+                break
+        except Exception:
+            app.logger.exception("Chat request failed (model %s)", model)
+            break
+    return {"reply": CHAT_FALLBACK}, 502
 
 
 # ── security.txt (RFC 9116) ────────────────────────────────────────────────────

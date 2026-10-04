@@ -210,3 +210,79 @@ def test_sanitize_text():
     assert portfolio.sanitize_text("a\r\nb", 100, single_line=True) == "a b"
     assert portfolio.sanitize_text("a\x00b\x07c", 100) == "abc"
     assert len(portfolio.sanitize_text("x" * 500, 100)) == 100
+
+
+# ── Chat provider handling (Groq mocked) ─────────────────────────────────────
+
+class _Resp:
+    def __init__(self, body):
+        self._body = body
+
+    def read(self):
+        return self._body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+
+def _http_error(code, body):
+    import io
+    import urllib.error
+    return urllib.error.HTTPError("https://api.groq.com", code, "err", {}, io.BytesIO(body))
+
+
+def test_chat_success_and_key_is_cleaned(app, monkeypatch):
+    import json
+    import urllib.request
+    app.config["WTF_CSRF_ENABLED"] = False
+    monkeypatch.setenv("GROQ_API_KEY", '  "gsk_test_key"\n')
+    seen = {}
+
+    def fake_urlopen(req, timeout=0):
+        seen["auth"] = req.get_header("Authorization")
+        return _Resp(json.dumps({"choices": [{"message": {"content": "He builds AI platforms."}}]}).encode())
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+    r = https_client(app).post("/api/chat", json={"message": "hi"})
+    assert r.status_code == 200 and r.get_json()["reply"] == "He builds AI platforms."
+    assert seen["auth"] == "Bearer gsk_test_key"
+
+
+def test_chat_falls_back_to_backup_model(app, monkeypatch):
+    import json
+    import urllib.request
+    app.config["WTF_CSRF_ENABLED"] = False
+    monkeypatch.setenv("GROQ_API_KEY", "gsk_test_key")
+    models = []
+
+    def fake_urlopen(req, timeout=0):
+        model = json.loads(req.data)["model"]
+        models.append(model)
+        if len(models) == 1:
+            raise _http_error(400, b'{"error":{"code":"model_decommissioned","message":"gone"}}')
+        return _Resp(json.dumps({"choices": [{"message": {"content": "ok"}}]}).encode())
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+    r = https_client(app).post("/api/chat", json={"message": "hi"})
+    assert r.status_code == 200
+    assert models == ["llama-3.3-70b-versatile", "openai/gpt-oss-120b"]
+
+
+def test_chat_bad_key_does_not_retry_or_leak(app, monkeypatch, caplog):
+    import urllib.request
+    app.config["WTF_CSRF_ENABLED"] = False
+    monkeypatch.setenv("GROQ_API_KEY", "gsk_secret_value")
+    calls = []
+
+    def fake_urlopen(req, timeout=0):
+        calls.append(1)
+        raise _http_error(401, b'{"error":{"code":"invalid_api_key","message":"Invalid API Key"}}')
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+    r = https_client(app).post("/api/chat", json={"message": "hi"})
+    assert r.status_code == 502 and len(calls) == 1
+    assert "invalid_api_key" in caplog.text
+    assert "gsk_secret_value" not in caplog.text and "gsk_secret_value" not in r.get_data(as_text=True)
