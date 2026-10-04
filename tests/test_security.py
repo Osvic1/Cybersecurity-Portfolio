@@ -306,3 +306,34 @@ def test_reply_cleanup():
     raw = "**AtomStudio**—a fine‑tuning platform.\n- built with FastAPI"
     assert portfolio.clean_reply(raw) == "AtomStudio, a fine-tuning platform.\nbuilt with FastAPI"
     assert portfolio.clean_reply("54 findings​") == "54 findings"
+
+
+def test_chat_rate_limited_model_falls_through(app, monkeypatch):
+    import json
+    import urllib.request
+    app.config["WTF_CSRF_ENABLED"] = False
+    monkeypatch.setenv("GROQ_API_KEY", "gsk_test_key")
+    models = []
+
+    def fake_urlopen(req, timeout=0):
+        models.append(json.loads(req.data)["model"])
+        if len(models) == 1:
+            raise _http_error(429, b'{"error":{"code":"rate_limit_exceeded","message":"slow down"}}')
+        return _Resp(json.dumps({"choices": [{"message": {"content": "ok"}}]}).encode())
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+    r = https_client(app).post("/api/chat", json={"message": "hi"})
+    assert r.status_code == 200 and len(models) == 2
+
+
+def test_chat_all_models_busy(app, monkeypatch):
+    import urllib.request
+    app.config["WTF_CSRF_ENABLED"] = False
+    monkeypatch.setenv("GROQ_API_KEY", "gsk_test_key")
+
+    def fake_urlopen(req, timeout=0):
+        raise _http_error(429, b'{"error":{"code":"rate_limit_exceeded","message":"slow down"}}')
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+    r = https_client(app).post("/api/chat", json={"message": "hi"})
+    assert r.status_code == 429 and "try again in a minute" in r.get_json()["reply"]

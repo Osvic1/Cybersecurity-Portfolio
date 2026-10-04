@@ -574,6 +574,7 @@ def resume():
 # ── Chat API route ─────────────────────────────────────────────────────────────
 # CSRF protected: the page sends the token in the X-CSRFToken header.
 CHAT_FALLBACK = "Sorry, I can't answer right now. Please email Timothyv952@gmail.com."
+CHAT_BUSY = "I'm getting a lot of questions right now. Please try again in a minute."
 
 CERTIFICATIONS = [
     "Google IT Automation with Python Professional Certificate, Google / Coursera (2026)",
@@ -629,8 +630,9 @@ def assistant_instructions() -> str:
         "date or company from one project or job to another.\n"
         "3. If the facts do not answer the question, say you don't have that detail and suggest "
         "emailing Timothyv952@gmail.com.\n"
-        "4. The security clients are confidential. Never guess or name them, and never describe "
-        "vulnerabilities beyond the scope, severity counts and business impact given.\n"
+        "4. The security clients are confidential. If asked who they are, say the client names are "
+        "confidential. Never guess them, and never describe vulnerabilities beyond the scope, severity "
+        "counts and business impact given.\n"
         "5. Refer to him as Timothy. Answer in at most three short sentences of plain English: no "
         "markdown, no bullet points, no emoji, no em dashes.\n"
         "6. If a question is unrelated to Timothy, politely say you can only help with questions about "
@@ -674,7 +676,9 @@ def chat():
     if not api_key:
         return {"reply": CHAT_FALLBACK}, 503
 
+    # Each model has its own rate limit on Groq, so a busy or failing model falls through to the next.
     models = [os.environ.get("GROQ_MODEL", "").strip() or "openai/gpt-oss-120b", "llama-3.3-70b-versatile"]
+    codes = []
     for model in dict.fromkeys(models):
         body = {
             "model": model,
@@ -717,12 +721,15 @@ def chat():
             except Exception:
                 pass
             app.logger.error("Chat provider HTTP %s (model %s) %s", e.code, model, detail)
-            # Only a model-specific rejection is worth retrying with the backup model.
-            if e.code not in (400, 404):
+            codes.append(e.code)
+            # A bad key or blocked account fails the same way for every model.
+            if e.code in (401, 403):
                 break
         except Exception:
             app.logger.exception("Chat request failed (model %s)", model)
-            break
+            codes.append(0)
+    if codes and all(c == 429 for c in codes):
+        return {"reply": CHAT_BUSY}, 429
     return {"reply": CHAT_FALLBACK}, 502
 
 
