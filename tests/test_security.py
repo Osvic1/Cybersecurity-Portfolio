@@ -268,7 +268,7 @@ def test_chat_falls_back_to_backup_model(app, monkeypatch):
     monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
     r = https_client(app).post("/api/chat", json={"message": "hi"})
     assert r.status_code == 200
-    assert models == ["llama-3.3-70b-versatile", "openai/gpt-oss-120b"]
+    assert models == ["openai/gpt-oss-120b", "llama-3.3-70b-versatile"]
 
 
 def test_chat_bad_key_does_not_retry_or_leak(app, monkeypatch, caplog):
@@ -286,3 +286,22 @@ def test_chat_bad_key_does_not_retry_or_leak(app, monkeypatch, caplog):
     assert r.status_code == 502 and len(calls) == 1
     assert "invalid_api_key" in caplog.text
     assert "gsk_secret_value" not in caplog.text and "gsk_secret_value" not in r.get_data(as_text=True)
+
+
+def test_assistant_facts_match_site_data(app):
+    with app.test_request_context("/api/chat"):
+        text = portfolio.assistant_instructions()
+    for job in portfolio.EXPERIENCES:
+        assert job["company"] in text and job["period"] in text
+    with app.test_request_context("/"):
+        for p in portfolio.get_projects():
+            assert "[" + p["title"] + "]" in text
+    for c in portfolio.CERTIFICATIONS:
+        assert c in text
+    assert "Never move a technology" in text
+    assert "victor-timothy-a61421223" in text
+
+
+def test_reply_cleanup():
+    raw = "**AtomStudio**—a fine‑tuning platform.\n- built with FastAPI"
+    assert portfolio.clean_reply(raw) == "AtomStudio, a fine-tuning platform.\nbuilt with FastAPI"
